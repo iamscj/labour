@@ -19,7 +19,7 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 
-const Links = ['Home', 'About', 'Contact','Logout'];
+const Links = ['Home', 'About', 'Contact', 'Logout'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -50,7 +50,7 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            
+
             <HStack
               as={'nav'}
               spacing={4}
@@ -76,20 +76,20 @@ export default function Header() {
                 />
               </MenuButton>
               <MenuList>
-              <Link href='/'>
-              <Button>Link 1</Button>
-              </Link>
-              <Link href='/about'>
-              <Button>Link 2</Button>
-              </Link>
-              <Link href='/contact'>
-              <Button>Link 3</Button>
-              </Link>
-              <Link href='/login'>
-              <Button>Link 4</Button>
-              </Link>
-                
-                
+                <Link href='/'>
+                  <Button>Link 1</Button>
+                </Link>
+                <Link href='/about'>
+                  <Button>Link 2</Button>
+                </Link>
+                <Link href='/contact'>
+                  <Button>Link 3</Button>
+                </Link>
+                <Link href='/login'>
+                  <Button>Link 4</Button>
+                </Link>
+
+
               </MenuList>
             </Menu>
           </Flex>
@@ -106,7 +106,7 @@ export default function Header() {
         ) : null}
       </Box>
 
-      
+
     </>
   );
 }
