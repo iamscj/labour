@@ -18,26 +18,27 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-
 const Links = ['Home', 'About', 'Contact', 'Logout'];
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
+// const NavLink = ({ children }) => (
+//   <Button
+//     px={2}
+//     py={1}
+//     rounded={'md'}
+//     _hover={{
+//       textDecoration: 'none',
+//       bg: useColorModeValue('gray.200', 'gray.700'),
+//     }}
+//     onClick={() => {
+//       navigate(`${children}`)
+//     }}
+//   >
+//     {children}
+//   </Button>
+// );
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const navigate = useNavigate();
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -55,9 +56,20 @@ export default function Header() {
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
+              <Button
+                px={2}
+                py={1}
+                rounded={'md'}
+                _hover={{
+                  textDecoration: 'none',
+                  bg: 'gray.200',
+                }}
+                onClick={() => {
+                  navigate('/')
+                }}
+              >
+                Home
+              </Button>
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -76,18 +88,10 @@ export default function Header() {
                 />
               </MenuButton>
               <MenuList>
-                <Link href='/'>
-                  <Button>Link 1</Button>
-                </Link>
-                <Link href='/about'>
-                  <Button>Link 2</Button>
-                </Link>
-                <Link href='/contact'>
-                  <Button>Link 3</Button>
-                </Link>
-                <Link href='/login'>
-                  <Button>Link 4</Button>
-                </Link>
+                <Button>Link 1</Button>
+                <Button>Link 2</Button>
+                <Button>Link 3</Button>
+                <Button>Link 4</Button>
 
 
               </MenuList>
@@ -99,7 +103,20 @@ export default function Header() {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <Button
+                  px={2}
+                  py={1}
+                  rounded={'md'}
+                  _hover={{
+                    textDecoration: 'none',
+                    bg: 'gray.200',
+                  }}
+                  onClick={() => {
+                    navigate('/')
+                  }}
+                >
+                  Home
+                </Button>
               ))}
             </Stack>
           </Box>
