@@ -29,8 +29,10 @@ import {
   MdBusinessCenter,
   MdChildCare
 } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
-const AnimatedButton = ({ category, isLeft }) => (
+const AnimatedButton = ({ category, isLeft, navigate }) => (
   <Flex
     direction="column"
     align="center"
@@ -44,6 +46,8 @@ const AnimatedButton = ({ category, isLeft }) => (
       colorScheme={category.colorScheme}
       variant="solid"
       leftIcon={<category.icon />}
+      // width={"200px"}
+      onClick={() => navigate(`/findjob/${category.label}`)}
     >
       {category.label}
     </Button>
@@ -51,7 +55,7 @@ const AnimatedButton = ({ category, isLeft }) => (
 );
 const categories = [
   {
-    label: "Computer Service",
+    label: "Computer-Service",
     colorScheme: "blue",
     icon: MdComputer,
   },
@@ -91,7 +95,7 @@ const categories = [
     icon: MdFitnessCenter,
   },
   {
-    label: "Golf Course",
+    label: "Golf-Course",
     colorScheme: "green",
     icon: MdGolfCourse,
   },
@@ -142,8 +146,10 @@ const categories = [
   },
 ];
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
+      <Navbar />
       <Box
         p={{ base: "2", md: "10" }}
         bgGradient="linear(to-r, #1A202C, #2D3748)" // modified background gradient
@@ -198,13 +204,13 @@ const Home = () => {
           flexWrap="wrap"
           justifyContent="space-around"
           alignItems="center"
-          width="100%"
+          width="90vw"
         >
           {categories.slice(0, categories.length / 2).map((category) => (
-            <AnimatedButton key={category.label} category={category} isLeft />
+            <AnimatedButton key={category.label} category={category} isLeft navigate={navigate} />
           ))}
           {categories.slice(categories.length / 2).map((category) => (
-            <AnimatedButton key={category.label} category={category} />
+            <AnimatedButton key={category.label} category={category} navigate={navigate} />
           ))}
         </Flex>
       </Box>
