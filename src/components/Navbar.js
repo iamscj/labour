@@ -12,10 +12,12 @@ import {
     MenuItem,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const navigate = useNavigate();
     const toggle = () => setIsOpen(!isOpen);
 
     return (
@@ -56,6 +58,9 @@ const Navbar = () => {
                         mr={4}
                         px={4}
                         py={2}
+                        onClick={() => {
+                  navigate('/post')
+                }}
                     >
                         Click Here to Post New Job
                     </Button>

@@ -4,6 +4,9 @@ import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import EachJob from "./components/EachJob";
+import Post from "./components/Post";
+import MapComponent from "./components/Search_map";
+
 
 function App() {
   return (
@@ -13,6 +16,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
         <Route path="/findjob/:field" element={<EachJob />} />
+        <Route path="/post" element={<Post />} />
+        <Route path="/search" element={<MapComponent />} />
       </Routes>
     </BrowserRouter>
   );
