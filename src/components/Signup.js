@@ -13,7 +13,7 @@ import {
   Avatar,
   AvatarGroup,
   useBreakpointValue,
-  IconProps,
+ 
   Icon,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -44,7 +44,7 @@ const avatars = [
 ];
 
 const signupInitialValues = {
-  phone: "",
+  phonenumber: "",
   username: "",
   password: "",
 };
@@ -213,21 +213,12 @@ export default function JoinOurTeam() {
           </Stack>
           <Box as={"form"} mt={10}>
             <Stack spacing={4}>
-              <Input
-                onChange={(e) => onInputChange(e)}
-                name="phone"
-                placeholder="PhoneNo"
-                bg={"gray.100"}
-                border={0}
-                color={"gray.500"}
-                _placeholder={{
-                  color: "gray.500",
-                }}
-              />
-              <Input
+
+            <Input
                 onChange={(e) => onInputChange(e)}
                 name="username"
                 placeholder="Username"
+                type="text"
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -235,6 +226,19 @@ export default function JoinOurTeam() {
                   color: "gray.500",
                 }}
               />
+              <Input
+                onChange={(e) => onInputChange(e)}
+                name="phonenumber"
+                placeholder="PhoneNo"
+                bg={"gray.100"}
+                border={0}
+                type="text"
+                color={"gray.500"}
+                _placeholder={{
+                  color: "gray.500",
+                }}
+              />
+             
               <Input
                 onChange={(e) => onInputChange(e)}
                 name="password"

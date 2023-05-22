@@ -12,61 +12,58 @@ import {
   SimpleGrid,
   Avatar,
   AvatarGroup,
-
   useBreakpointValue,
-  IconProps,
-  Icon
-} from '@chakra-ui/react';
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
+  Icon,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const avatars = [
   {
-    name: 'Ryan Florence',
-    url: 'https://bit.ly/ryan-florence',
+    name: "Ryan Florence",
+    url: "https://bit.ly/ryan-florence",
   },
   {
-    name: 'Segun Adebayo',
-    url: 'https://bit.ly/sage-adebayo',
+    name: "Segun Adebayo",
+    url: "https://bit.ly/sage-adebayo",
   },
   {
-    name: 'Kent Dodds',
-    url: 'https://bit.ly/kent-c-dodds',
+    name: "Kent Dodds",
+    url: "https://bit.ly/kent-c-dodds",
   },
   {
-    name: 'Prosper Otemuyiwa',
-    url: 'https://bit.ly/prosper-baba',
+    name: "Prosper Otemuyiwa",
+    url: "https://bit.ly/prosper-baba",
   },
   {
-    name: 'Christian Nwamba',
-    url: 'https://bit.ly/code-beast',
+    name: "Christian Nwamba",
+    url: "https://bit.ly/code-beast",
   },
 ];
 
 const loginInitialValues = {
-  username: '',
-  password: ''
-}
-
+  username: "",
+  password: "",
+};
 
 export default function JoinOurTeam() {
-
   const [login, setLogin] = useState(loginInitialValues);
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
-
-  }
+  };
   const navigate = useNavigate();
   const toast = useToast();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      let res = await axios.post('https://server-labour.vercel.app/login', login);
+      let res = await axios.post(
+        "https://server-labour.vercel.app/login",
+        login
+      );
 
-      console.log(res.data.msg);
+      console.log(res.data);
 
       if (res.data.msg === "password missmatch") {
         toast({
@@ -75,9 +72,9 @@ export default function JoinOurTeam() {
           duration: 4000,
           isClosable: true,
           position: "bottom",
-        })
+        });
         return;
-      };
+      }
       if (res.data.msg === "User Does Not Exist") {
         toast({
           title: "User Does Not Exist",
@@ -85,7 +82,7 @@ export default function JoinOurTeam() {
           duration: 4000,
           isClosable: true,
           position: "bottom",
-        })
+        });
         return;
       }
       if (res.data.msg === "user verified") {
@@ -95,10 +92,12 @@ export default function JoinOurTeam() {
           duration: 4000,
           isClosable: true,
           position: "top",
-        })
+        });
+         sessionStorage.setItem("username", res.data.details.username
+         );
+        sessionStorage.setItem("phoneno", res.data.details.phonenumber);
         setTimeout(() => navigate("/"), 1000);
-      }
-      else {
+      } else {
         toast({
           title: "Something Went Wrong",
           status: "error",
@@ -108,9 +107,8 @@ export default function JoinOurTeam() {
         });
         return;
       }
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast({
         title: "Something Went Wrong",
         status: "error",
@@ -123,27 +121,30 @@ export default function JoinOurTeam() {
   };
 
   return (
-    <Box position={'relative'}>
+    <Box position={"relative"}>
       <Container
         as={SimpleGrid}
-        maxW={'7xl'}
+        maxW={"7xl"}
         columns={{ base: 1, md: 2 }}
         spacing={{ base: 10, lg: 32 }}
-        py={{ base: 10, sm: 20, lg: 32 }}>
+        py={{ base: 10, sm: 20, lg: 32 }}
+      >
         <Stack spacing={{ base: 10, md: 20 }}>
           <Heading
             lineHeight={1.1}
-            fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-            Labours{' '}
+            fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
+          >
+            Labours{" "}
             <Text
-              as={'span'}
+              as={"span"}
               bgGradient="linear(to-r, red.400,pink.400)"
-              bgClip="text">
+              bgClip="text"
+            >
               &
-            </Text>{' '}
+            </Text>{" "}
             Employement
           </Heading>
-          <Stack direction={'row'} spacing={4} align={'center'}>
+          <Stack direction={"row"} spacing={4} align={"center"}>
             <AvatarGroup>
               {avatars.map((avatar) => (
                 <Avatar
@@ -151,16 +152,16 @@ export default function JoinOurTeam() {
                   name={avatar.name}
                   src={avatar.url}
                   // size={useBreakpointValue()}
-                  position={'relative'}
+                  position={"relative"}
                   zIndex={2}
                   _before={{
                     content: '""',
-                    width: 'full',
-                    height: 'full',
-                    rounded: 'full',
-                    transform: 'scale(1.125)',
-                    bgGradient: 'linear(to-bl, red.400,pink.400)',
-                    position: 'absolute',
+                    width: "full",
+                    height: "full",
+                    rounded: "full",
+                    transform: "scale(1.125)",
+                    bgGradient: "linear(to-bl, red.400,pink.400)",
+                    position: "absolute",
                     zIndex: -1,
                     top: 0,
                     left: 0,
@@ -168,117 +169,128 @@ export default function JoinOurTeam() {
                 />
               ))}
             </AvatarGroup>
-            <Text fontFamily={'heading'} fontSize={{ base: '4xl', md: '6xl' }}>
+            <Text fontFamily={"heading"} fontSize={{ base: "4xl", md: "6xl" }}>
               +
             </Text>
             <Flex
-              align={'center'}
-              justify={'center'}
-              fontFamily={'heading'}
-              fontSize={{ base: 'sm', md: 'lg' }}
-              bg={'gray.800'}
-              color={'white'}
-              rounded={'full'}
-              minWidth={useBreakpointValue({ base: '44px', md: '60px' })}
-              minHeight={useBreakpointValue({ base: '44px', md: '60px' })}
-              position={'relative'}
+              align={"center"}
+              justify={"center"}
+              fontFamily={"heading"}
+              fontSize={{ base: "sm", md: "lg" }}
+              bg={"gray.800"}
+              color={"white"}
+              rounded={"full"}
+              minWidth={useBreakpointValue({ base: "44px", md: "60px" })}
+              minHeight={useBreakpointValue({ base: "44px", md: "60px" })}
+              position={"relative"}
               _before={{
                 content: '""',
-                width: 'full',
-                height: 'full',
-                rounded: 'full',
-                transform: 'scale(1.125)',
-                bgGradient: 'linear(to-bl, orange.400,yellow.400)',
-                position: 'absolute',
+                width: "full",
+                height: "full",
+                rounded: "full",
+                transform: "scale(1.125)",
+                bgGradient: "linear(to-bl, orange.400,yellow.400)",
+                position: "absolute",
                 zIndex: -1,
                 top: 0,
                 left: 0,
-              }}>
+              }}
+            >
               YOU
             </Flex>
           </Stack>
         </Stack>
         <Stack
-          bg={'gray.50'}
-          rounded={'xl'}
+          bg={"gray.50"}
+          rounded={"xl"}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
-          maxW={{ lg: 'lg' }}>
+          maxW={{ lg: "lg" }}
+        >
           <Stack spacing={4}>
             <Heading
-              color={'gray.800'}
+              color={"gray.800"}
               lineHeight={1.1}
-              fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
+              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
+            >
               Login
               <Text
-                as={'span'}
+                as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
-                bgClip="text">
+                bgClip="text"
+              >
                 !
               </Text>
             </Heading>
-            <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
-
-            </Text>
+            <Text color={"gray.500"} fontSize={{ base: "sm", sm: "md" }}></Text>
           </Stack>
-          <Box as={'form'} mt={10}>
+          <Box as={"form"} mt={10}>
             <Stack spacing={4}>
-
               <Input
-                value={login.username} onChange={(e) => onValueChange(e)} name="username"
+                value={login.username}
+                onChange={(e) => onValueChange(e)}
+                name="username"
                 placeholder="Username"
-                bg={'gray.100'}
+                bg={"gray.100"}
                 border={0}
-                color={'gray.500'}
+                color={"gray.500"}
                 _placeholder={{
-                  color: 'gray.500',
+                  color: "gray.500",
                 }}
               />
               <Input
-                value={login.password} onChange={(e) => onValueChange(e)} name="password"
+                value={login.password}
+                onChange={(e) => onValueChange(e)}
+                name="password"
                 placeholder="Password"
-                bg={'gray.100'}
+                bg={"gray.100"}
                 border={0}
-                color={'gray.500'}
+                color={"gray.500"}
                 _placeholder={{
-                  color: 'gray.500',
+                  color: "gray.500",
                 }}
               />
               <Link>
-                <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} width={'100%'} onClick={handleSubmit}>
+                <Button
+                  fontFamily={"heading"}
+                  bg={"gray.200"}
+                  color={"gray.800"}
+                  width={"100%"}
+                  onClick={handleSubmit}
+                >
                   Login
                 </Button>
               </Link>
-
             </Stack>
             <Stack spacing={2}>
-              <Text textAlign={'center'} margin={'20px 20px'}>OR</Text>
+              <Text textAlign={"center"} margin={"20px 20px"}>
+                OR
+              </Text>
             </Stack>
 
             <Button
-              fontFamily={'heading'}
+              fontFamily={"heading"}
               mt={8}
-              w={'full'}
+              w={"full"}
               bgGradient="linear(to-r, red.400,pink.400)"
-              color={'white'}
+              color={"white"}
               _hover={{
-                bgGradient: 'linear(to-r, red.400,pink.400)',
-                boxShadow: 'xl',
+                bgGradient: "linear(to-r, red.400,pink.400)",
+                boxShadow: "xl",
               }}
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate("/signup")}
             >
               No Account!SignUp
             </Button>
-
           </Box>
           form
         </Stack>
       </Container>
       <Blur
-        position={'absolute'}
+        position={"absolute"}
         top={-10}
         left={-10}
-        style={{ filter: 'blur(70px)' }}
+        style={{ filter: "blur(70px)" }}
       />
     </Box>
   );
@@ -287,13 +299,14 @@ export default function JoinOurTeam() {
 export const Blur = (props) => {
   return (
     <Icon
-      width={useBreakpointValue({ base: '100%', md: '40vw', lg: '30vw' })}
+      width={useBreakpointValue({ base: "100%", md: "40vw", lg: "30vw" })}
       zIndex={useBreakpointValue({ base: -1, md: -1, lg: 0 })}
       height="560px"
       viewBox="0 0 528 560"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}>
+      {...props}
+    >
       <circle cx="71" cy="61" r="111" fill="#F56565" />
       <circle cx="244" cy="106" r="139" fill="#ED64A6" />
       <circle cy="291" r="139" fill="#ED64A6" />
