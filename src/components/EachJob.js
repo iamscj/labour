@@ -17,22 +17,26 @@ import { ArrowUpIcon } from "@chakra-ui/icons";
 
 
 const EachJob = () => {
+
   const [jobs, setJobs] = useState([]);
   const [likedjobs, setLiked] = useState([]);
   const [countjobss, setcountjobs] = useState([]);
   const [countlikes, setcountlikes] = useState([]);
   const [renderpost, setrenderpost] = useState(0);
-  const [filtered, setfiltered] = useState('no');
+  const [filtered, setfiltered] = useState({
+    price: "no_price",
+    hours: "no_hours"
+  });
 
   const handleClick = async (job_id) => {
     await axios.post(
-      `https://server-labour.vercel.app/like-dislike/${sessionStorage.getItem("username")}/${job_id}`
+      `https://server-labour.vercel.app/like-dislike/${sessionStorage.getItem(
+        "username"
+      )}/${job_id}`
     );
     setrenderpost(!renderpost);
   };
-  
-    
-  
+
   useEffect(() => {
     axios
       .get("https://server-labour.vercel.app/get-like-count")
@@ -55,7 +59,9 @@ const EachJob = () => {
   useEffect(() => {
     axios
       .get(
-        `https://server-labour.vercel.app/get-liked-posts?username=${sessionStorage.getItem("username")}`
+        `https://server-labour.vercel.app/get-liked-posts?username=${sessionStorage.getItem(
+          "username"
+        )}`
       )
       .then((response) => {
         console.log(response.data);
@@ -65,7 +71,7 @@ const EachJob = () => {
         for (let i = 0; i < temp.length; i++) {
           arr.push(temp[i].job_id);
         }
-       
+
         setLiked(arr);
       })
       .catch((error) => {
@@ -90,157 +96,109 @@ const EachJob = () => {
     }
   }, [field]);
   // console.log(countlikes);
-  function onfiltervalueselected(filtervalue) {
-    //console.log(filtervalue);
-    setfiltered(filtervalue);
-  }
-  console.log(filtered);
-   const [filteredjobs,setfilteredjobs]=useState([]);
-  useEffect(()=>{
-
-    
-      if(filtered==='no_price')
-      {
-        setfilteredjobs(jobs);
+  // function onfiltervalueselected(filtervalue) {
+  //   setfiltered(filtervalue);
+  // }
+  console.log(jobs);
+  const [filteredjobs, setfilteredjobs] = useState([]);
+  useEffect(() => {
+    if (filtered.price === "no_price") {
+      setfilteredjobs(jobs);
+    }
+    else if (filtered.price === "all_price") {
+      setfilteredjobs(jobs);
+    }
+    else if (filtered.price === "1_price") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].max_salary <= 1000) arr1.push(jobs[i]);
       }
-      else if(filtered==='all_price')
-      {
-        setfilteredjobs(jobs);
+      setfilteredjobs(arr1);
+    }
+    else if (filtered.price === "2_price") {
+      let arr1 = [];
+      setfilteredjobs(arr1);
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].min_salary >= 1000 && jobs[i].max_salary <= 2000)
+          arr1.push(jobs[i]);
       }
-      else if(filtered==='1_price')
-      {
-        let arr1=[];
-        for(let i=0;i<jobs.length;i++)
-        {
-            if(jobs[i].max_salary<1000)
-            arr1.push(jobs[i]);
-            setfilteredjobs(arr1);
-        }
-
+      setfilteredjobs(arr1);
+    }
+    else if (filtered.price === "3_price") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].max_salary > 2000 && jobs[i].max_salary < 3000)
+          arr1.push(jobs[i]);
       }
-      // else if(filtered.price==='2_price')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<jobs.length;i++)
-      //   {
-      //       if(jobs[i].max_salary<2000&&jobs[i].min_salary>1000)
-      //       arr1.push(jobs[i]);
-      //       setfilteredjobs(arr1);
-      //   }
+      setfilteredjobs(arr1);
+    }
+    else if (filtered.price === "4_price") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].max_salary > 4000 && jobs[i].max_salary < 5000)
+          arr1.push(jobs[i]);
+      }
+      setfilteredjobs(arr1);
+    }
+    else if (filtered.price === "5_price") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].max_salary > 5000) arr1.push(jobs[i]);
+      }
+      setfilteredjobs(arr1);
+    }
 
-      // }
-      // else if(filtered.price==='3_price')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<jobs.length;i++)
-      //   {
-      //       if(jobs[i].max_salary<3000&&jobs[i].min_salary>2000)
-      //       arr1.push(jobs[i]);
-      //       setfilteredjobs(arr1);
-      //   }
+    // if (filtered.hours === 'no_hours') {
+    //   setfilteredjobs(jobs);
+    // }
+    // else if (filtered.hours === 'all_hr') {
+    //   setfilteredjobs(jobs);
+    // }
+    // else if (filtered.hours === '1_hr') {
+    //   let arr1 = []
+    //   for (let i = 0; i < jobs.length; i++) {
+    //     if (jobs[i].working_hours < 1)
+    //       arr1.push(jobs[i]);
+    //   }
 
-      // }
-      // else if(filtered.price==='4_price')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<jobs.length;i++)
-      //   {
-      //       if(jobs[i].max_salary<5000&&jobs[i].min_salary>4000)
-      //       arr1.push(jobs[i]);
-      //       setfilteredjobs(arr1);
-      //   }
+    //   setfilteredjobs(arr1);
+    // }
+    // else if (filtered.hours === '2_hr') {
+    //   let arr1 = [];
+    //   for (let i = 0; i < jobs.length; i++) {
+    //     if (jobs[i].working_hours < 2 && jobs[i].working_hours > 1)
+    //       arr1.push(jobs[i]);
+    //     setfilteredjobs(arr1);
+    //   }
 
-      // }
-      // else if(filtered.price==='5_price')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<jobs.length;i++)
-      //   {
-      //       if(jobs[i].max_salary>5000)
-      //       arr1.push(jobs[i]);
-      //       setfilteredjobs(arr1);
-      //   }
-      // }
+    // }
+    // else if (filtered.hours === '3_hr') {
+    //   let arr1 = [];
+    //   for (let i = 0; i < jobs.length; i++) {
+    //     if (jobs[i].working_hours < 3 && jobs[i].working_hours > 2)
+    //       arr1.push(jobs[i]);
+    //     setfilteredjobs(arr1);
+    //   }
+    // }
+    // else if (filtered.hours === '4_hr') {
+    //   let arr1 = [];
+    //   for (let i = 0; i < jobs.length; i++) {
+    //     if (jobs[i].working_hours > 3)
+    //       arr1.push(jobs[i]);
+    //     setfilteredjobs(arr1);
+    //   }
 
-      
+    // }
+  }, [filtered, jobs]);
 
-      // if(filtered.hours==='no_hr')
-      // {
-      //   setfilteredjobs(arr);
-      // }
-      // else if(filtered.hours==='all_hr')
-      // {
-      //   setfilteredjobs(arr);
-      // }
-      // else if(filtered.hours==='1_hr')
-      // {
-      //   let arr1=[]
-      //   for(let i=0;i<arr.length;i++)
-      //   {
-      //       if(arr[i].working_hours<1)
-      //       arr1.push(arr[i]);
-      //       setfilteredjobs(arr1);
-      //   }
-
-      // }
-      // else if(filtered.hours==='2_hr')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<arr.length;i++)
-      //   {
-      //       if(arr[i].working_hours<2&&arr[i].working_hours>1)
-      //       arr1.push(arr[i]);
-      //       setfilteredjobs(arr1);
-      //   }
-
-      // }
-      // else if(filtered.hours==='3_hr')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<arr.length;i++)
-      //   {
-      //       if(arr[i].working_hours<3&&arr[i].working_hours>2)
-      //       arr1.push(arr[i]);
-      //       setfilteredjobs(arr1);
-      //   }
-
-      // }
-      // else if(filtered.hours==='4_hr')
-      // {
-      //   let arr1=[];
-      //   for(let i=0;i<arr.length;i++)
-      //   {
-      //       if(arr[i].working_hours>3)
-      //       arr1.push(arr[i]);
-      //       setfilteredjobs(arr1);
-      //   }
-
-      // }
-
-  },[filtered]);
-
-  console.log(filteredjobs);
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // console.log(filteredjobs);
 
   return (
     <div>
-      <SimpleSidebar onfiltervalueselect={onfiltervalueselected} />
+      <SimpleSidebar onfiltervalueselected={setfiltered} />
       {filteredjobs.length ? (
         filteredjobs.map((item) => (
           <div key={item.job_id}>
-          
             <Box
               bg="white"
               borderRadius="lg"
@@ -259,8 +217,7 @@ const EachJob = () => {
               <Box>
                 <Box bg="gray.100" p={4}>
                   <Heading size="md" fontWeight="bold" color="gray.700">
-                    Category:{" "}
-                    {item.field}
+                    Category: {item.field}
                   </Heading>
                   <Text fontSize="sm" mt={1} color="gray.600">
                     {item.job_id}
@@ -270,11 +227,11 @@ const EachJob = () => {
                 <Flex p={4} alignItems="center">
                   <Box>
                     <Heading fontSize="2xl" fontWeight="semibold">
-                      Username:{" "}
-                      {item.username}
+                      Username: {item.username}
                     </Heading>
                     <Text color="gray.500" fontSize="sm">
-                    Location:{item.latitude},{item.longitude}</Text>
+                      Location:{item.latitude},{item.longitude}
+                    </Text>
                   </Box>
                   <Box ml="auto">
                     <Badge borderRadius="full" px="2" colorScheme="green">

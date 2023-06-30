@@ -12,10 +12,10 @@ import {
   Text,
   useDisclosure,
   Select
-  
+
 } from '@chakra-ui/react';
 import {
- 
+
   FiMenu,
 } from 'react-icons/fi';
 
@@ -24,18 +24,18 @@ import {
 
 
 
- let SimpleSidebar=(props)=> {
+let SimpleSidebar = (props) => {
   //console.log(props);
   // props.onfiltervalueselect("ameyaa");
- 
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
-        pro={props.onfiltervalueselect}
+        pro={props.onfiltervalueselected}
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
-        
+
       />
       <Drawer
         autoFocus={false}
@@ -46,32 +46,33 @@ import {
         onOverlayClick={onClose}
         size="full">
         <DrawerContent>
-          <SidebarContent pro={props.onfiltervalueselect} onClose={onClose}  />
+          <SidebarContent pro={props.onfiltervalueselected} onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        
+
       </Box>
     </Box>
   );
 }
 
 const inputss = {
-  price:"no_price",
-  hours:"no_hr"
-
+  price: "no_price",
+  hours: "no_hours"
 };
 
-const SidebarContent = ({ pro,onClose, ...rest }) => {
-   const [filters,setfilters]=useState(inputss);
+const SidebarContent = ({ pro, onClose, ...rest }) => {
+  const [filters, setfilters] = useState(inputss);
 
-   
-  function onFilterValueChange(e){
-    setfilters({filters, [e.target.name]: e.target.value });
-     pro(e.target.value);
+
+  function onFilterValueChange(e) {
+
+    pro({ ...filters, [e.target.name]: e.target.value });
+    setfilters({ ...filters, [e.target.name]: e.target.value });
   }
+  // console.log(filters)
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -89,46 +90,46 @@ const SidebarContent = ({ pro,onClose, ...rest }) => {
       </Flex>
       <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" textAlign={'center'}>Price</Text>
       <div>
-      <Select
-                  onChange={onFilterValueChange}
-                  placeholder="Choose Feild"
-                  size="md"
-                  name="price" 
-                >
-                  <option value="all_price">All</option>
-                  <option value="1_price"> {'< 1000Rs'}</option>
-                  <option value="2_price">1000-2000Rs</option>
-                  <option value="3_price">2000-3000Rs</option>
-                  <option value="4_price">3000-4000Rs</option>
-                  <option value="5_price">{'>5000Rs'}</option>
+        <Select
+          onChange={onFilterValueChange}
+          placeholder="Choose Feild"
+          size="md"
+          name="price"
+        >
+          <option value="all_price">All</option>
+          <option value="1_price"> {'< 1000Rs'}</option>
+          <option value="2_price">1000-2000Rs</option>
+          <option value="3_price">2000-3000Rs</option>
+          <option value="4_price">3000-4000Rs</option>
+          <option value="5_price">{'>5000Rs'}</option>
 
-                  
-                  
-                </Select>
-        
+
+
+        </Select>
+
       </div>
 
-      {/* <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" textAlign={'center'}>Hours</Text>
+      <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" textAlign={'center'}>Hours</Text>
       <div>
-      <Select
-                  onChange={onFilterValueChange}
-                  placeholder="Choose Feild"
-                  size="md"
-                  name="hours" 
-                >
-                  <option value="all_hr">All</option>
-                  <option value="1_hr"> {'< 1hr'}</option>
-                  <option value="2_hr">1-2hr</option>
-                  <option value="3_hr">2-3hr</option>
-                  
-                  <option value="4_hr">{'>3hr'}</option>
+        <Select
+          onChange={onFilterValueChange}
+          placeholder="Choose Feild"
+          size="md"
+          name="hours"
+        >
+          <option value="all_hr">All</option>
+          <option value="1_hr"> {'< 1hr'}</option>
+          <option value="2_hr">1-2hr</option>
+          <option value="3_hr">2-3hr</option>
 
-                  
-                  
-                </Select>
-        
-      </div> */}
-      
+          <option value="4_hr">{'>3hr'}</option>
+
+
+
+        </Select>
+
+      </div>
+
     </Box>
   );
 };
