@@ -1,14 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "animate.css";
 
-import {
-  Box,
-  Center,
-  Heading,
-  Stack,
-  Button,
-  Flex
-} from "@chakra-ui/react";
+import { Box, Center, Heading, Stack, Button, Flex } from "@chakra-ui/react";
 import {
   MdComputer,
   MdBuild,
@@ -27,7 +20,7 @@ import {
   MdFlight,
   MdLocalShipping,
   MdBusinessCenter,
-  MdChildCare
+  MdChildCare,
 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -38,8 +31,9 @@ const AnimatedButton = ({ category, isLeft, navigate }) => (
     align="center"
     mb="4"
     key={category.label}
-    className={`animate__animated ${isLeft ? "animate__slideInLeft" : "animate__slideInRight"
-      }`}
+    className={`animate__animated ${
+      isLeft ? "animate__slideInLeft" : "animate__slideInRight"
+    }`}
   >
     <Button
       size={{ base: "md", md: "lg" }}
@@ -147,6 +141,26 @@ const categories = [
 ];
 const Home = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          sessionStorage.setItem("latitude", latitude);
+          sessionStorage.setItem("longitude", longitude);
+          console.log("Latitude:", latitude);
+          console.log("Longitude:", longitude);
+        },
+        (error) => {
+          console.error("Error:", error.message);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  });
   return (
     <>
       <Navbar />
@@ -197,7 +211,6 @@ const Home = () => {
           >
             Find the Right Labour for Your Job...
           </Heading>
-
         </Center>
 
         <Flex
@@ -207,37 +220,45 @@ const Home = () => {
           width="90vw"
         >
           {categories.slice(0, categories.length / 2).map((category) => (
-            <AnimatedButton key={category.label} category={category} isLeft navigate={navigate} />
+            <AnimatedButton
+              key={category.label}
+              category={category}
+              isLeft
+              navigate={navigate}
+            />
           ))}
           {categories.slice(categories.length / 2).map((category) => (
-            <AnimatedButton key={category.label} category={category} navigate={navigate} />
+            <AnimatedButton
+              key={category.label}
+              category={category}
+              navigate={navigate}
+            />
           ))}
         </Flex>
       </Box>
 
       <style jsx="true">{`
-      @keyframes flowing-gradient {
-        0% {
-          background-position: 0% 50%;
+        @keyframes flowing-gradient {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
-        50% {
-          background-position: 100% 50%;
+        @keyframes move-in {
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(0);
+          }
         }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-      @keyframes move-in {
-        from {
-          transform: translateX(-100%);
-        }
-        to {
-          transform: translateX(0);
-        }
-      }
-    `}</style>
+      `}</style>
     </>
-
   );
 };
 

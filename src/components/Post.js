@@ -25,12 +25,11 @@ import {
 } from "@chakra-ui/react";
 import MapComponent from "./Search_map";
 
-
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const inputss = {
-  username:"shreyasa",
-  phonenumber:"1234567854" ,
+  username: "shreyasa",
+  phonenumber: "1234567854",
   field: "",
   max_salary: "",
   min_salary: "",
@@ -44,12 +43,9 @@ const inputss = {
 function Post() {
   const [inputfeild, setFeild] = useState(inputss);
   console.log(inputss);
-  
+
   const toast = useToast();
   const navigate = useNavigate();
-
-
- 
 
   const onInputChange = (e) => {
     setFeild({ ...inputfeild, [e.target.name]: e.target.value });
@@ -118,21 +114,16 @@ function Post() {
     console.log(res.data.error);
   };
 
-
   return (
-    
-    
     <Box
       display="flex"
       alignItems="center"
       justifyContent="Center"
       marginTop={"4vh"}
-     
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
     >
-    
-    <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg" >
-    <form>
+      <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
+        <form>
           <Grid
             templateColumns="repeat(2, 1fr)"
             templateRows="repeat(3, 1fr)"
@@ -144,7 +135,6 @@ function Post() {
                 Username
               </FormLabel>
               <Input
-               
                 type="text"
                 name="username"
                 borderRadius="md"
@@ -152,7 +142,6 @@ function Post() {
                 _focus={{ borderColor: "black.500", bg: "" }}
                 border={"none"}
                 borderBottom={"1px"}
-                
                 value={sessionStorage.getItem("username")}
                 required
               />
@@ -165,7 +154,7 @@ function Post() {
               <InputGroup>
                 <InputLeftAddon children="+91" />
                 <Input
-                 onChange={(e) => onInputChange(e)}
+                  onChange={(e) => onInputChange(e)}
                   type="number"
                   placeholder="phone number"
                   value={sessionStorage.getItem("phoneno")}
@@ -174,6 +163,7 @@ function Post() {
                   _focus={{ borderColor: "black.500", bg: "" }}
                   border={"none"}
                   borderBottom={"1px"}
+                  required
                 />
               </InputGroup>
             </FormControl>
@@ -355,7 +345,6 @@ function Post() {
           </Button>
         </form>
       </Box>
-      
     </Box>
   );
 }

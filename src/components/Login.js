@@ -47,7 +47,7 @@ const loginInitialValues = {
   password: "",
 };
 
-export default function JoinOurTeam() {
+export default function JoinOurTeam({ isUserAuthenticated }) {
   const [login, setLogin] = useState(loginInitialValues);
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -93,9 +93,9 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "top",
         });
-         sessionStorage.setItem("username", res.data.details.username
-         );
+        sessionStorage.setItem("username", res.data.details.username);
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
+        isUserAuthenticated(true);
         setTimeout(() => navigate("/"), 1000);
       } else {
         toast({

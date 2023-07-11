@@ -7,17 +7,14 @@ import {
   Divider,
   Stack,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SimpleSidebar from "./Sidebar";
 import { Button } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 
-
-
 const EachJob = () => {
-
   const [jobs, setJobs] = useState([]);
   const [likedjobs, setLiked] = useState([]);
   const [countjobss, setcountjobs] = useState([]);
@@ -25,9 +22,9 @@ const EachJob = () => {
   const [renderpost, setrenderpost] = useState(0);
   const [filtered, setfiltered] = useState({
     price: "no_price",
-    hours: "no_hours"
+    hours: "no_hours",
   });
-
+  const navigate = useNavigate();
   const handleClick = async (job_id) => {
     await axios.post(
       `https://server-labour.vercel.app/like-dislike/${sessionStorage.getItem(
@@ -35,6 +32,15 @@ const EachJob = () => {
       )}/${job_id}`
     );
     setrenderpost(!renderpost);
+  };
+
+  const handleRequest = (job_id) => {
+    // console.log(job_id);
+    navigate("/request", {
+      state: {
+        job: job_id,
+      },
+    });
   };
 
   useEffect(() => {
@@ -99,99 +105,122 @@ const EachJob = () => {
   // function onfiltervalueselected(filtervalue) {
   //   setfiltered(filtervalue);
   // }
-  console.log(jobs);
+  // useEffect(() => {
+  //  let arr=[];
+  //  let x=sessionStorage.getItem("latitude");
+  //  let y=sessionStorage.getItem("longitude");
+  //  console.log(x);
+  //  console.log(y);
+  //  for(let i=0;i<jobs.length;i++)
+  //  {
+  //      let xx=jobs[i].latitude;
+  //      let yy=jobs[i].longitude;
+  //      const radius = 6371;
+
+  //      // Haversine formula
+  //      const dlat =Math.abs( x - xx);
+  //      const dlon = Math.abs(y - yy);
+  //      const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
+  //      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //      const distance = radius * c;
+  //      if(jobs[i].expected_distance_range>=distance)
+  //      arr.push(jobs[i]);
+  //  }
+  //  console.log(arr);
+  // //  setJobs(arr);
+  // }, );
+  //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
+    let arr = [];
     if (filtered.price === "no_price") {
-      setfilteredjobs(jobs);
-    }
-    else if (filtered.price === "all_price") {
-      setfilteredjobs(jobs);
-    }
-    else if (filtered.price === "1_price") {
+      arr = jobs;
+    } else if (filtered.price === "all_price") {
+      arr = jobs;
+    } else if (filtered.price === "1_price") {
       let arr1 = [];
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].max_salary <= 1000) arr1.push(jobs[i]);
       }
-      setfilteredjobs(arr1);
-    }
-    else if (filtered.price === "2_price") {
+      arr = arr1;
+    } else if (filtered.price === "2_price") {
       let arr1 = [];
-      setfilteredjobs(arr1);
+
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].min_salary >= 1000 && jobs[i].max_salary <= 2000)
           arr1.push(jobs[i]);
       }
-      setfilteredjobs(arr1);
-    }
-    else if (filtered.price === "3_price") {
+      arr = arr1;
+    } else if (filtered.price === "3_price") {
       let arr1 = [];
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].max_salary > 2000 && jobs[i].max_salary < 3000)
           arr1.push(jobs[i]);
       }
-      setfilteredjobs(arr1);
-    }
-    else if (filtered.price === "4_price") {
+      arr = arr1;
+    } else if (filtered.price === "4_price") {
       let arr1 = [];
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].max_salary > 4000 && jobs[i].max_salary < 5000)
           arr1.push(jobs[i]);
       }
-      setfilteredjobs(arr1);
-    }
-    else if (filtered.price === "5_price") {
+      arr = arr1;
+    } else if (filtered.price === "5_price") {
       let arr1 = [];
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].max_salary > 5000) arr1.push(jobs[i]);
       }
-      setfilteredjobs(arr1);
+      arr = arr1;
     }
+    let arr2 = [];
+    if (filtered.hours === "no_hours") {
+      arr2 = jobs;
+    } else if (filtered.hours === "all_hr") {
+      arr2 = jobs;
+    }
+    if (filtered.hours === "1_hr") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].working_hours < 1) arr1.push(jobs[i]);
+      }
+      arr2 = arr1;
+    } else if (filtered.hours === "2_hr") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].working_hours > 1 && jobs[i].working_hours < 2)
+          arr1.push(jobs[i]);
+      }
+      arr2 = arr1;
+    } else if (filtered.hours === "3_hr") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].working_hours > 2 && jobs[i].working_hours < 3)
+          arr1.push(jobs[i]);
+      }
+      arr2 = arr1;
+    } else if (filtered.hours === "4_hr") {
+      let arr1 = [];
+      for (let i = 0; i < jobs.length; i++) {
+        if (jobs[i].working_hours > 3) arr1.push(jobs[i]);
+      }
+      arr2 = arr1;
+    }
+    // console.log("hello",arr);
 
-    // if (filtered.hours === 'no_hours') {
-    //   setfilteredjobs(jobs);
-    // }
-    // else if (filtered.hours === 'all_hr') {
-    //   setfilteredjobs(jobs);
-    // }
-    // else if (filtered.hours === '1_hr') {
-    //   let arr1 = []
-    //   for (let i = 0; i < jobs.length; i++) {
-    //     if (jobs[i].working_hours < 1)
-    //       arr1.push(jobs[i]);
-    //   }
-
-    //   setfilteredjobs(arr1);
-    // }
-    // else if (filtered.hours === '2_hr') {
-    //   let arr1 = [];
-    //   for (let i = 0; i < jobs.length; i++) {
-    //     if (jobs[i].working_hours < 2 && jobs[i].working_hours > 1)
-    //       arr1.push(jobs[i]);
-    //     setfilteredjobs(arr1);
-    //   }
-
-    // }
-    // else if (filtered.hours === '3_hr') {
-    //   let arr1 = [];
-    //   for (let i = 0; i < jobs.length; i++) {
-    //     if (jobs[i].working_hours < 3 && jobs[i].working_hours > 2)
-    //       arr1.push(jobs[i]);
-    //     setfilteredjobs(arr1);
-    //   }
-    // }
-    // else if (filtered.hours === '4_hr') {
-    //   let arr1 = [];
-    //   for (let i = 0; i < jobs.length; i++) {
-    //     if (jobs[i].working_hours > 3)
-    //       arr1.push(jobs[i]);
-    //     setfilteredjobs(arr1);
-    //   }
-
-    // }
+    // console.log("hi",arr2);
+    let arr3 = [];
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr2.length; j++) {
+        if (arr[i] === arr2[j]) {
+          arr3.push(arr[i]);
+          break;
+        }
+      }
+    }
+    setfilteredjobs(arr3);
   }, [filtered, jobs]);
 
-  // console.log(filteredjobs);
+  //console.log(filtered);
 
   return (
     <div>
@@ -296,6 +325,24 @@ const EachJob = () => {
                         : 0}
                     </Text>
                   </Box>
+                </Box>
+
+                <Divider />
+
+                <Box>
+                  <Button
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"black"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    width={"200px"}
+                    onClick={() => handleRequest(item.job_id)}
+                  >
+                    Request
+                  </Button>
                 </Box>
               </Box>
             </Box>
