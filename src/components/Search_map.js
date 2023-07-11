@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import 'ol/ol.css';
 import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -6,7 +6,8 @@ import OSM from 'ol/source/OSM';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import Overlay from 'ol/Overlay';
 
-const MapComponent = () => {
+const MapComponent = ({setlat}) => {
+  
   const mapRef = useRef(null);
   const markerOverlayRef = useRef(null);
 
@@ -39,7 +40,9 @@ const MapComponent = () => {
       const longitude = coordinates[0];
 
       markerOverlay.setPosition(event.coordinate);
-
+      setlat(previousState => {
+        return { ...previousState, latitude: latitude,longitude:longitude }
+      });
       console.log('Latitude:', latitude);
       console.log('Longitude:', longitude);
     });

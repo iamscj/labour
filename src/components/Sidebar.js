@@ -50,6 +50,7 @@ let SimpleSidebar = (props) => {
 const inputss = {
   price: "no_price",
   hours: "no_hours",
+  distance:"no_distance"
 };
 
 const SidebarContent = ({ pro, onClose, ...rest }) => {
@@ -121,6 +122,31 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
           <option value="3_hr">2-3hr</option>
 
           <option value="4_hr">{">3hr"}</option>
+        </Select>
+      </div>
+
+
+      <Text
+        fontSize="2xl"
+        fontFamily="monospace"
+        fontWeight="bold"
+        textAlign={"center"}
+      >
+        Distance
+      </Text>
+      <div>
+        <Select
+          onChange={onFilterValueChange}
+          placeholder="Choose Feild"
+          size="md"
+          name="distance"
+        >
+          <option value="all_distance">All</option>
+          <option value="1_distance"> {"< 5km"}</option>
+          <option value="2_distance">5-20km</option>
+          <option value="3_distance">20-50km</option>
+
+          <option value="4_distance">{">50km"}</option>
         </Select>
       </div>
     </Box>

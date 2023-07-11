@@ -23,6 +23,7 @@ const EachJob = () => {
   const [filtered, setfiltered] = useState({
     price: "no_price",
     hours: "no_hours",
+    distance:"no_distance"
   });
   const navigate = useNavigate();
   const handleClick = async (job_id) => {
@@ -105,30 +106,32 @@ const EachJob = () => {
   // function onfiltervalueselected(filtervalue) {
   //   setfiltered(filtervalue);
   // }
-  // useEffect(() => {
-  //  let arr=[];
-  //  let x=sessionStorage.getItem("latitude");
-  //  let y=sessionStorage.getItem("longitude");
-  //  console.log(x);
-  //  console.log(y);
-  //  for(let i=0;i<jobs.length;i++)
-  //  {
-  //      let xx=jobs[i].latitude;
-  //      let yy=jobs[i].longitude;
-  //      const radius = 6371;
+  const [updatejobs, setUpdatejobs] = useState([]);
+  useEffect(() => {
+    let arr=jobs;
+   
+   let x=sessionStorage.getItem("latitude");
+   let y=sessionStorage.getItem("longitude");
+   console.log(x);
+   console.log(y);
+   for(let i=0;i<jobs.length;i++)
+   {
+       let xx=arr[i].latitude;
+       let yy=arr[i].longitude;
+       const radius = 6371;
 
-  //      // Haversine formula
-  //      const dlat =Math.abs( x - xx);
-  //      const dlon = Math.abs(y - yy);
-  //      const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
-  //      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  //      const distance = radius * c;
-  //      if(jobs[i].expected_distance_range>=distance)
-  //      arr.push(jobs[i]);
-  //  }
-  //  console.log(arr);
-  // //  setJobs(arr);
-  // }, );
+       // Haversine formula
+       const dlat =Math.abs( x - xx);
+       const dlon = Math.abs(y - yy);
+       const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
+       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+       const distance = radius * c;
+       arr[i].expected_distance_range=distance;
+   }
+   setUpdatejobs(arr);
+   console.log(updatejobs);
+  //  setJobs(arr);
+  },[jobs] );
   //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
@@ -209,15 +212,53 @@ const EachJob = () => {
 
     // console.log("hi",arr2);
     let arr3 = [];
+    if (filtered.distance === "no_distance") {
+      arr3 = updatejobs;
+    } else if (filtered.distance === "all_distance") {
+      arr3 = updatejobs;
+    }
+    if (filtered.distance === "1_distance") {
+      let arr1 = [];
+      for (let i = 0; i < updatejobs.length; i++) {
+        if (updatejobs[i].expected_distance_range < 5) arr1.push(jobs[i]);
+      }
+      arr3 = arr1;
+    } else if (filtered.distance === "2_distance") {
+      let arr1 = [];
+      for (let i = 0; i < updatejobs.length; i++) {
+        if (updatejobs[i].expected_distance_range > 5&&updatejobs[i].expected_distance_range < 20) arr1.push(jobs[i]);
+      }
+      arr3 = arr1;
+    }else if (filtered.distance === "3_distance") {
+      let arr1 = [];
+      for (let i = 0; i < updatejobs.length; i++) {
+        if (updatejobs[i].expected_distance_range > 20&&updatejobs[i].expected_distance_range < 50) arr1.push(jobs[i]);
+      }
+      arr3 = arr1;
+    } else if (filtered.distance === "4_distance") {
+      let arr1 = [];
+      for (let i = 0; i < updatejobs.length; i++) {
+        if (updatejobs[i].expected_distance_range > 50) arr1.push(jobs[i]);
+      }
+      arr3 = arr1;
+    }
+    let arr4 = [];
+    console.log(arr);
+    console.log(arr2);
+    console.log(arr3);
+    console.log(jobs);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr2.length; j++) {
-        if (arr[i] === arr2[j]) {
-          arr3.push(arr[i]);
+        if(arr[i].job_id === arr2[j].job_id){
+        for (let k = 0; k < arr3.length; k++) {
+        if (arr3[k].job_id===arr2[j].job_id) {
+          arr4.push(arr[i]);
           break;
-        }
+        }}}
       }
     }
-    setfilteredjobs(arr3);
+    console.log(arr4);
+    setfilteredjobs(arr4);
   }, [filtered, jobs]);
 
   //console.log(filtered);

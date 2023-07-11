@@ -309,7 +309,7 @@ function Post() {
                     <PopoverCloseButton />
                     <PopoverHeader>Select Your Location</PopoverHeader>
                     <PopoverBody>
-                      <MapComponent />
+                      <MapComponent setlat={setFeild}/>
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
