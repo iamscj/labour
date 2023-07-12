@@ -28,7 +28,11 @@ import MapComponent from "./Search_map";
 // import { useEffect } from "react";
 
 const inputss = {
+<<<<<<< HEAD
   username:sessionStorage.getItem("username"),
+=======
+  username: sessionStorage.getItem("username"),
+>>>>>>> 30770f598ff8d09d643870cabe966b547752fc7a
   phonenumber: sessionStorage.getItem("phoneno"),
   field: "",
   max_salary: "",
@@ -309,7 +313,7 @@ function Post() {
                     <PopoverCloseButton />
                     <PopoverHeader>Select Your Location</PopoverHeader>
                     <PopoverBody>
-                      <MapComponent setlat={setFeild}/>
+                      <MapComponent setlat={setFeild} />
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>

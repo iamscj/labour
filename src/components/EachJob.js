@@ -23,7 +23,7 @@ const EachJob = () => {
   const [filtered, setfiltered] = useState({
     price: "no_price",
     hours: "no_hours",
-    distance:"no_distance"
+    distance: "no_distance"
   });
   const navigate = useNavigate();
   const handleClick = async (job_id) => {
@@ -109,6 +109,7 @@ const EachJob = () => {
  
   const [updatejobs, setUpdatejobs] = useState([]);
   useEffect(() => {
+<<<<<<< HEAD
     
     
     let arr=jobs;
@@ -139,6 +140,35 @@ const EachJob = () => {
    console.log(updatejobs);
   //  setJobs(arr);
   },[jobs] );
+=======
+    let arr = jobs;
+
+    let x = sessionStorage.getItem("latitude");
+    let y = sessionStorage.getItem("longitude");
+    console.log(x);
+    console.log(y);
+    for (let i = 0; i < jobs.length; i++) {
+      let xx = arr[i].latitude;
+      let yy = arr[i].longitude;
+      const radius = 6371;
+      xx = xx * (Math.PI / 180);
+      yy = yy * (Math.PI / 180);
+      x = x * (Math.PI / 180);
+      y = y * (Math.PI / 180);
+
+      // Haversine formula
+      const dlat = x - xx;
+      const dlon = y - yy;
+      const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = radius * c;
+      arr[i].expected_distance_range = distance;
+    }
+    setUpdatejobs(arr);
+    console.log(updatejobs);
+    //  setJobs(arr);
+  }, [jobs]);
+>>>>>>> 30770f598ff8d09d643870cabe966b547752fc7a
   //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
@@ -233,13 +263,13 @@ const EachJob = () => {
     } else if (filtered.distance === "2_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (updatejobs[i].expected_distance_range > 5&&updatejobs[i].expected_distance_range < 20) arr1.push(jobs[i]);
+        if (updatejobs[i].expected_distance_range > 5 && updatejobs[i].expected_distance_range < 20) arr1.push(jobs[i]);
       }
       arr3 = arr1;
-    }else if (filtered.distance === "3_distance") {
+    } else if (filtered.distance === "3_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (updatejobs[i].expected_distance_range > 20&&updatejobs[i].expected_distance_range < 50) arr1.push(jobs[i]);
+        if (updatejobs[i].expected_distance_range > 20 && updatejobs[i].expected_distance_range < 50) arr1.push(jobs[i]);
       }
       arr3 = arr1;
     } else if (filtered.distance === "4_distance") {
@@ -256,12 +286,14 @@ const EachJob = () => {
     console.log(jobs);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr2.length; j++) {
-        if(arr[i].job_id === arr2[j].job_id){
-        for (let k = 0; k < arr3.length; k++) {
-        if (arr3[k].job_id===arr2[j].job_id) {
-          arr4.push(arr[i]);
-          break;
-        }}}
+        if (arr[i].job_id === arr2[j].job_id) {
+          for (let k = 0; k < arr3.length; k++) {
+            if (arr3[k].job_id === arr2[j].job_id) {
+              arr4.push(arr[i]);
+              break;
+            }
+          }
+        }
       }
     }
     console.log(arr4);

@@ -15,7 +15,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { useNavigate } from 'react-router-dom';
 
 
-const Navbar = () => {
+const Navbar = ({ t }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const toggle = () => setIsOpen(!isOpen);
@@ -32,17 +32,17 @@ const Navbar = () => {
                 />
                 <Box display={{ base: "none", md: "flex" }} alignItems={"center"}>
                     <Text fontSize="lg" fontWeight="bold" color="white">
-                        Find Your's
+                        {t("Find Your's")}
                     </Text>
                     <Box ml={10}>
                         <Button variant="link" color="white" mr={4}>
-                            Home
+                            {t("Home")}
                         </Button>
                         <Button variant="link" color="white" mr={4}>
-                            About
+                            {t("About")}
                         </Button>
                         <Button variant="link" color="white" mr={4}>
-                            Contact Us
+                            {t("Contact Us")}
                         </Button>
                     </Box>
                 </Box>
@@ -59,10 +59,10 @@ const Navbar = () => {
                         px={4}
                         py={2}
                         onClick={() => {
-                  navigate('/post')
-                }}
+                            navigate('/post')
+                        }}
                     >
-                        Click Here to Post New Job
+                        {t("ClickHereToPostNewJob")}
                     </Button>
                     <Menu>
                         <MenuButton
@@ -78,8 +78,8 @@ const Navbar = () => {
                             />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>View Profile</MenuItem>
-                            <MenuItem>Logout</MenuItem>
+                            <MenuItem>{t("View Profile")}</MenuItem>
+                            <MenuItem>{t("Logout")}</MenuItem>
                         </MenuList>
                     </Menu>
                 </Box>
@@ -87,13 +87,13 @@ const Navbar = () => {
             {isOpen ? (
                 <Box pb={4}>
                     <Button variant="link" color="white" mb={4} w="full">
-                        Home
+                        {t("Home")}
                     </Button>
                     <Button variant="link" color="white" mb={4} w="full">
-                        About
+                        {t("About")}
                     </Button>
                     <Button variant="link" color="white" mb={4} w="full">
-                        Contact Us
+                        {t("Contact Us")}
                     </Button>
                     <Box
                         display={{ base: "flex", sm: "none", md: "none" }}
@@ -108,7 +108,7 @@ const Navbar = () => {
                             px={4}
                             py={2}
                         >
-                            Click Here to Post New Job
+                            {t("ClickHereToPostNewJob")}
                         </Button>
                         <Menu>
                             <MenuButton
@@ -124,8 +124,8 @@ const Navbar = () => {
                                 />
                             </MenuButton>
                             <MenuList>
-                                <MenuItem>View Profile</MenuItem>
-                                <MenuItem>Logout</MenuItem>
+                                <MenuItem>{t("View Profile")}</MenuItem>
+                                <MenuItem>{t("Logout")}</MenuItem>
                             </MenuList>
                         </Menu>
                     </Box>
@@ -134,6 +134,5 @@ const Navbar = () => {
         </Box>
     );
 };
-
 
 export default Navbar;
