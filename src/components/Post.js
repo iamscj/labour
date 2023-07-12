@@ -121,6 +121,7 @@ function Post() {
       justifyContent="Center"
       marginTop={"4vh"}
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
+      height={"100vh"}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
         <form>
@@ -309,7 +310,7 @@ function Post() {
                     <PopoverCloseButton />
                     <PopoverHeader>Select Your Location</PopoverHeader>
                     <PopoverBody>
-                      <MapComponent setlat={setFeild}/>
+                      <MapComponent setlat={setFeild} />
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>

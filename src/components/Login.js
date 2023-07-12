@@ -14,10 +14,15 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const avatars = [
   {
@@ -49,6 +54,7 @@ const loginInitialValues = {
 
 export default function JoinOurTeam({ isUserAuthenticated }) {
   const [login, setLogin] = useState(loginInitialValues);
+  const { t, i18n } = useTranslation();
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
@@ -67,7 +73,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
 
       if (res.data.msg === "password missmatch") {
         toast({
-          title: "Incorrect Password",
+          title: t("Incorrect Password"),
           status: "error",
           duration: 4000,
           isClosable: true,
@@ -77,7 +83,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
       }
       if (res.data.msg === "User Does Not Exist") {
         toast({
-          title: "User Does Not Exist",
+          title: t("User Does Not Exist"),
           status: "error",
           duration: 4000,
           isClosable: true,
@@ -87,7 +93,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
       }
       if (res.data.msg === "user verified") {
         toast({
-          title: "user verified",
+          title: t("user verified"),
           status: "success",
           duration: 4000,
           isClosable: true,
@@ -99,7 +105,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         setTimeout(() => navigate("/"), 1000);
       } else {
         toast({
-          title: "Something Went Wrong",
+          title: t("Something Went Wrong"),
           status: "error",
           duration: 4000,
           isClosable: true,
@@ -110,7 +116,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
     } catch (err) {
       console.log(err);
       toast({
-        title: "Something Went Wrong",
+        title: t("Something Went Wrong"),
         status: "error",
         duration: 4000,
         isClosable: true,
@@ -119,6 +125,10 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
       return;
     }
   };
+
+  function handleClick(lang) {
+    i18n.changeLanguage(lang);
+  }
 
   return (
     <Box position={"relative"}>
@@ -134,7 +144,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
             lineHeight={1.1}
             fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
           >
-            Labours{" "}
+            {t("Labours")}{" "}
             <Text
               as={"span"}
               bgGradient="linear(to-r, red.400,pink.400)"
@@ -142,7 +152,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
             >
               &
             </Text>{" "}
-            Employement
+            {t("Employment")}
           </Heading>
           <Stack direction={"row"} spacing={4} align={"center"}>
             <AvatarGroup>
@@ -213,7 +223,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
               lineHeight={1.1}
               fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
             >
-              Login
+              {t("Login")}
               <Text
                 as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
@@ -230,7 +240,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 value={login.username}
                 onChange={(e) => onValueChange(e)}
                 name="username"
-                placeholder="Username"
+                placeholder={t("Username")}
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -242,7 +252,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 value={login.password}
                 onChange={(e) => onValueChange(e)}
                 name="password"
-                placeholder="Password"
+                placeholder={t("Password")}
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -250,6 +260,19 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                   color: "gray.500",
                 }}
               />
+              <Menu>
+                <MenuButton as={Button}>
+                  {t("Language")}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => handleClick("en")}>
+                    {t("English")}
+                  </MenuItem>
+                  <MenuItem onClick={() => handleClick("kn")}>
+                    {t("Kannada")}
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Link>
                 <Button
                   fontFamily={"heading"}
@@ -258,7 +281,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                   width={"100%"}
                   onClick={handleSubmit}
                 >
-                  Login
+                  {t("Login")}
                 </Button>
               </Link>
             </Stack>
@@ -280,10 +303,9 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
               }}
               onClick={() => navigate("/signup")}
             >
-              No Account!SignUp
+              {t("No Account!SignUp")}
             </Button>
           </Box>
-          form
         </Stack>
       </Container>
       <Blur
