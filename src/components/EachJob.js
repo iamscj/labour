@@ -106,8 +106,11 @@ const EachJob = () => {
   // function onfiltervalueselected(filtervalue) {
   //   setfiltered(filtervalue);
   // }
+ 
   const [updatejobs, setUpdatejobs] = useState([]);
   useEffect(() => {
+    
+    
     let arr=jobs;
    
    let x=sessionStorage.getItem("latitude");
@@ -119,10 +122,14 @@ const EachJob = () => {
        let xx=arr[i].latitude;
        let yy=arr[i].longitude;
        const radius = 6371;
+       xx=xx*(Math.PI / 180);
+       yy=yy*(Math.PI / 180);
+       x=x*(Math.PI / 180);
+       y=y*(Math.PI / 180);
 
        // Haversine formula
-       const dlat =Math.abs( x - xx);
-       const dlon = Math.abs(y - yy);
+       const dlat =x - xx;
+       const dlon = y - yy;
        const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
        const distance = radius * c;

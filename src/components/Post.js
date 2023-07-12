@@ -28,8 +28,8 @@ import MapComponent from "./Search_map";
 // import { useEffect } from "react";
 
 const inputss = {
-  username: "shreyasa",
-  phonenumber: "1234567854",
+  username:sessionStorage.getItem("username"),
+  phonenumber: sessionStorage.getItem("phoneno"),
   field: "",
   max_salary: "",
   min_salary: "",
@@ -186,7 +186,7 @@ function Post() {
                 <option value="fitness">Fitness</option>
                 <option value="golf course">Golf Course</option>
                 <option value="music">Music</option>
-                <option value="Movie">Movie</option>
+                <option value="movie">Movie</option>
                 <option value="camera">Camera</option>
                 <option value="shopping">Shopping</option>
                 <option value="event">Event</option>
