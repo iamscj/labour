@@ -14,7 +14,8 @@ import EachJob from "./components/EachJob";
 import Post from "./components/Post";
 import MapComponent from "./components/Search_map";
 import Request from "./components/Request";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
+import GetRequest from "./components/Get_request";
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   return isAuthenticated ? (
@@ -67,6 +68,13 @@ function App() {
           element={<PrivateRoute isAuthenticated={isAuthenticated} />}
         >
           <Route path="/request" element={<Request />} />
+        </Route>
+
+        <Route
+          path="/getrequest"
+          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
+        >
+          <Route path="/getrequest" element={<GetRequest />} />
         </Route>
       </Routes>
     </BrowserRouter>

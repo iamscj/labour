@@ -9,12 +9,82 @@ import {
   Link,
   Stack,
   Image,
+  useToast
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
+
+import { useState } from "react";
+import axios from "axios";
+
+
+
 
 export default function Request({}) {
   const location = useLocation();
+
+
+  const inputss = {
+
+
+    username:sessionStorage.getItem("username"),
+    job_id:location.state.job,
+    phonenumber: sessionStorage.getItem("phoneno"),
+    salary:"",
+    no_of_hours:"",
+  
+    
+    
+  };
   console.log(location);
+  const toast = useToast();
+  const [inputfeild, setFeild] = useState(inputss);
+  const onInputChange = (e) => {
+    setFeild({ ...inputfeild, [e.target.name]: e.target.value });
+  };
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    let res;
+    console.log(inputfeild);
+    try {
+      res = await axios.post(
+        "https://server-labour.vercel.app/raise-request",
+        inputfeild
+      );
+      console.log(res);
+      if (res.error === "Internal Server Error") {
+        toast({
+          title: "Check username",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+        });
+        return;
+      }
+
+      toast({
+        title: "Successfully submitted",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+        position: "top",
+      });
+
+      setTimeout(() => navigate("/"), 1000);
+    } catch (err) {
+      //console.log(res.data);
+      toast({
+        title: res,
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+    //console.log(res.data.error);
+  };
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
@@ -23,14 +93,23 @@ export default function Request({}) {
           <FormControl>
             <FormLabel>Username</FormLabel>
             <Input
+            name="username"
               type="text"
               value={sessionStorage.getItem("username")}
               required
             />
           </FormControl>
+          
+
+          <FormControl>
+            <FormLabel>To JobId</FormLabel>
+            <Input name="job_id" type="text" value={location.state.job} required />
+          </FormControl>
+
           <FormControl>
             <FormLabel>PhoneNo</FormLabel>
             <Input
+             name="phonenumber"
               type="number"
               value={sessionStorage.getItem("phoneno")}
               required
@@ -38,18 +117,13 @@ export default function Request({}) {
           </FormControl>
 
           <FormControl>
-            <FormLabel>To JobId</FormLabel>
-            <Input type="text" value={location.state.job} required />
-          </FormControl>
-
-          <FormControl>
             <FormLabel>Salary</FormLabel>
-            <Input type="number" placeholder="Enter Salary Rs" />
+            <Input name="salary" onChange={(e) => onInputChange(e)} type="number" placeholder="Enter Salary Rs" />
           </FormControl>
 
           <FormControl>
             <FormLabel>Hours</FormLabel>
-            <Input type="number" placeholder="Enter Hours" />
+            <Input name="no_of_hours" onChange={(e) => onInputChange(e)} type="number" placeholder="Enter Hours" />
           </FormControl>
 
           <Stack spacing={6}>
@@ -58,7 +132,7 @@ export default function Request({}) {
               align={"start"}
               justify={"space-between"}
             ></Stack>
-            <Button colorScheme={"blue"} variant={"solid"}>
+            <Button colorScheme={"blue"} variant={"solid"} onClick={handleSubmit}>
               Request
             </Button>
           </Stack>

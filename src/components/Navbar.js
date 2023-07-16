@@ -51,6 +51,20 @@ const Navbar = ({ t }) => {
                     alignItems={"center"}
                     justifyContent={"flex-end"}
                 >
+
+                      <Button
+                            colorScheme="blue"
+                            variant="solid"
+                            size="sm"
+                            mr={4}
+                            px={4}
+                            py={2}
+                            onClick={() => {
+                            navigate('/getrequest')
+                        }}
+                        >
+                            {"Requests"}
+                        </Button>
                     <Button
                         colorScheme="blue"
                         variant="solid"
@@ -64,6 +78,7 @@ const Navbar = ({ t }) => {
                     >
                         {t("ClickHereToPostNewJob")}
                     </Button>
+
                     <Menu>
                         <MenuButton
                             as={Button}
@@ -100,16 +115,33 @@ const Navbar = ({ t }) => {
                         alignItems={"center"}
                         justifyContent={"flex-end"}
                     >
-                        <Button
+                     <Button
                             colorScheme="blue"
                             variant="solid"
                             size="sm"
                             mr={4}
                             px={4}
                             py={2}
+                            onClick={() => {
+                            navigate('/getrequest')
+                        }}
                         >
-                            {t("ClickHereToPostNewJob")}
+                            {"Requests"}
                         </Button>
+                    <Button
+                        colorScheme="blue"
+                        variant="solid"
+                        size="sm"
+                        mr={4}
+                        px={4}
+                        py={2}
+                        onClick={() => {
+                            navigate('/post')
+                        }}
+                    >
+                        {t("ClickHereToPostNewJob")}
+                    </Button>
+
                         <Menu>
                             <MenuButton
                                 as={Button}
