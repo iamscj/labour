@@ -108,13 +108,16 @@ const EachJob = () => {
   // }
  
   const [updatejobs, setUpdatejobs] = useState([]);
+ 
+ 
   useEffect(() => {
-<<<<<<< HEAD
     
     
     let arr=jobs;
    
-   let x=sessionStorage.getItem("latitude");
+   
+   
+    let x=sessionStorage.getItem("latitude");
    let y=sessionStorage.getItem("longitude");
    console.log(x);
    console.log(y);
@@ -137,38 +140,16 @@ const EachJob = () => {
        arr[i].expected_distance_range=distance;
    }
    setUpdatejobs(arr);
+   
    console.log(updatejobs);
-  //  setJobs(arr);
-  },[jobs] );
-=======
-    let arr = jobs;
+ 
+  
 
-    let x = sessionStorage.getItem("latitude");
-    let y = sessionStorage.getItem("longitude");
-    console.log(x);
-    console.log(y);
-    for (let i = 0; i < jobs.length; i++) {
-      let xx = arr[i].latitude;
-      let yy = arr[i].longitude;
-      const radius = 6371;
-      xx = xx * (Math.PI / 180);
-      yy = yy * (Math.PI / 180);
-      x = x * (Math.PI / 180);
-      y = y * (Math.PI / 180);
 
-      // Haversine formula
-      const dlat = x - xx;
-      const dlon = y - yy;
-      const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const distance = radius * c;
-      arr[i].expected_distance_range = distance;
-    }
-    setUpdatejobs(arr);
-    console.log(updatejobs);
-    //  setJobs(arr);
-  }, [jobs]);
->>>>>>> 30770f598ff8d09d643870cabe966b547752fc7a
+
+},
+
+[jobs] );
   //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
