@@ -13,6 +13,16 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useNavigate } from 'react-router-dom';
+import GetRequest from "./Get_request";
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverArrow,
+    PopoverCloseButton,
+  } from "@chakra-ui/react";
 
 
 const Navbar = ({ t }) => {
@@ -52,20 +62,32 @@ const Navbar = ({ t }) => {
                     justifyContent={"flex-end"}
                 >
 
-                      <Button
+
+                   <Popover >
+                  <PopoverTrigger>
+                  <Button
                             colorScheme="blue"
                             variant="solid"
                             size="sm"
                             mr={4}
                             px={4}
                             py={2}
-                            onClick={() => {
-                            navigate('/getrequest')
-                        }}
+                           
+                        
                         >
                             {"Requests"}
                         </Button>
-                    <Button
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Requests</PopoverHeader>
+                    <PopoverBody>
+                      <GetRequest/>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+                 <Button
                         colorScheme="blue"
                         variant="solid"
                         size="sm"

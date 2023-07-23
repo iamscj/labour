@@ -19,10 +19,11 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import LoadingSpinner from "./Loading";
 
 const avatars = [
   {
@@ -54,6 +55,7 @@ const loginInitialValues = {
 
 export default function JoinOurTeam({ isUserAuthenticated }) {
   const [login, setLogin] = useState(loginInitialValues);
+  const [isLoading, setIsLoading] = useState(false);
   const { t, i18n } = useTranslation();
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
@@ -62,7 +64,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
   const toast = useToast();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       let res = await axios.post(
         "https://server-labour.vercel.app/login",
@@ -79,6 +81,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
       if (res.data.msg === "User Does Not Exist") {
@@ -89,6 +92,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
       if (res.data.msg === "user verified") {
@@ -102,6 +106,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         sessionStorage.setItem("username", res.data.details.username);
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
         isUserAuthenticated(true);
+        setIsLoading(false);
         setTimeout(() => navigate("/"), 1000);
       } else {
         toast({
@@ -111,6 +116,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           isClosable: true,
           position: "top",
         });
+        setIsLoading(false);
         return;
       }
     } catch (err) {
@@ -122,15 +128,23 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         isClosable: true,
         position: "top",
       });
+      setIsLoading(false);
       return;
     }
   };
+
+  useEffect(() => {
+    if(isLoading){
+    <LoadingSpinner/>}
+    console.log(isLoading);
+  }, [isLoading]);
 
   function handleClick(lang) {
     i18n.changeLanguage(lang);
   }
 
   return (
+    
     <Box position={"relative"}>
       <Container
         as={SimpleGrid}
@@ -280,8 +294,10 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                   color={"gray.800"}
                   width={"100%"}
                   onClick={handleSubmit}
+                  disabled={isLoading}
                 >
-                  {t("Login")}
+                {isLoading ? <LoadingSpinner/> : t("Login")}
+                  
                 </Button>
               </Link>
             </Stack>
