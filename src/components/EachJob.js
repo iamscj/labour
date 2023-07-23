@@ -13,6 +13,8 @@ import axios from "axios";
 import SimpleSidebar from "./Sidebar";
 import { Button } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
+import LoadingSpinner from "./Loading";
+
 
 const EachJob = () => {
   const [jobs, setJobs] = useState([]);
@@ -20,6 +22,7 @@ const EachJob = () => {
   const [countjobss, setcountjobs] = useState([]);
   const [countlikes, setcountlikes] = useState([]);
   const [renderpost, setrenderpost] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [filtered, setfiltered] = useState({
     price: "no_price",
     hours: "no_hours",
@@ -89,6 +92,7 @@ const EachJob = () => {
   let { field } = useParams();
   field = field.toLowerCase();
   useEffect(() => {
+    setIsLoading(true);
     if (field !== undefined) {
       axios
         .get(
@@ -96,11 +100,14 @@ const EachJob = () => {
         )
         .then((response) => {
           setJobs(response.data);
+          setIsLoading(false);
         })
         .catch((error) => {
           // console.log(error);
+          
         });
     }
+    
   }, [field]);
   // console.log(countlikes);
   // function onfiltervalueselected(filtervalue) {
@@ -149,7 +156,7 @@ const EachJob = () => {
 
 },
 
-[jobs] );
+[jobs,updatejobs] );
   //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
@@ -279,11 +286,10 @@ const EachJob = () => {
     }
     console.log(arr4);
     setfilteredjobs(arr4);
-  }, [filtered, jobs]);
+  }, [filtered, jobs,updatejobs]);
 
   //console.log(filtered);
-
-  return (
+  const renderUser = (
     <div>
       <SimpleSidebar onfiltervalueselected={setfiltered} />
       {filteredjobs.length ? (
@@ -440,6 +446,13 @@ const EachJob = () => {
           </Box>
         </Box>
       )}
+    </div>
+  );
+
+  return (
+    <div>
+      {isLoading ? <LoadingSpinner /> : renderUser}
+
     </div>
   );
 };

@@ -24,7 +24,7 @@ import {
   PopoverCloseButton,
 } from "@chakra-ui/react";
 import MapComponent from "./Search_map";
-
+import LoadingSpinner from "./Loading";
 // import { useEffect } from "react";
 
 const inputss = {
@@ -46,6 +46,7 @@ const inputss = {
 
 function Post() {
   const [inputfeild, setFeild] = useState(inputss);
+  const [isLoading, setIsLoading] = useState(false);
   console.log(inputss);
 
   const toast = useToast();
@@ -77,6 +78,7 @@ function Post() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     console.log(inputfeild);
     let res;
     try {
@@ -93,6 +95,7 @@ function Post() {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
 
@@ -103,7 +106,7 @@ function Post() {
         isClosable: true,
         position: "top",
       });
-
+      setIsLoading(false);
       setTimeout(() => navigate("/"), 1000);
     } catch (err) {
       console.log(res.data);
@@ -114,17 +117,19 @@ function Post() {
         isClosable: true,
         position: "bottom",
       });
+      setIsLoading(false);
     }
     console.log(res.data.error);
+    setIsLoading(false);
   };
 
   return (
     <Box
       display="flex"
-      alignItems="center"
-      justifyContent="Center"
-      marginTop={"4vh"}
-      bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
+  alignItems="center"
+  justifyContent="Center"
+  bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
+  height="200vh" style={{ margin: 0 }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
         <form>
@@ -201,7 +206,7 @@ function Post() {
               </Select>
             </FormControl>
 
-            <FormControl gridColumn="span 2" isRequired>
+            <FormControl gridColumn="span 2" isRequired={true}>
               <FormLabel color="gray.800" fontWeight="bold">
                 Salary
               </FormLabel>
@@ -219,6 +224,7 @@ function Post() {
                   border={"none"}
                   borderBottom={"1px"}
                   width={"50%"}
+                  isRequired={true}
                 />
 
                 <InputLeftAddon children="max" />
@@ -233,6 +239,7 @@ function Post() {
                   border={"none"}
                   borderBottom={"1px"}
                   width={"50%"}
+                  isRequired
                 />
               </InputGroup>
             </FormControl>
@@ -251,6 +258,7 @@ function Post() {
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                isRequired
               />
             </FormControl>
 
@@ -268,6 +276,7 @@ function Post() {
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                required
               />
             </FormControl>
 
@@ -285,6 +294,7 @@ function Post() {
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                isRequired
               />
             </FormControl>
 
@@ -344,8 +354,9 @@ function Post() {
             size="lg"
             width="100%"
             onClick={handleSubmit}
+            isDisabled={isLoading?true:false}
           >
-            Submit
+            {isLoading ? <LoadingSpinner/> :"Submit"}
           </Button>
         </form>
       </Box>

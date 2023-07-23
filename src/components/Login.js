@@ -19,7 +19,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -64,6 +64,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
   const toast = useToast();
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     setIsLoading(true);
     try {
       let res = await axios.post(
@@ -82,6 +83,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           position: "bottom",
         });
         setIsLoading(false);
+       
         return;
       }
       if (res.data.msg === "User Does Not Exist") {
@@ -92,6 +94,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           isClosable: true,
           position: "bottom",
         });
+       
         setIsLoading(false);
         return;
       }
@@ -107,6 +110,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
         isUserAuthenticated(true);
         setIsLoading(false);
+       
         setTimeout(() => navigate("/"), 1000);
       } else {
         toast({
@@ -116,6 +120,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
           isClosable: true,
           position: "top",
         });
+        //e.currentTarget.disabled = false;
         setIsLoading(false);
         return;
       }
@@ -128,16 +133,13 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         isClosable: true,
         position: "top",
       });
+     
       setIsLoading(false);
       return;
     }
   };
 
-  useEffect(() => {
-    if(isLoading){
-    <LoadingSpinner/>}
-    console.log(isLoading);
-  }, [isLoading]);
+ 
 
   function handleClick(lang) {
     i18n.changeLanguage(lang);
@@ -293,9 +295,11 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                   bg={"gray.200"}
                   color={"gray.800"}
                   width={"100%"}
+                  isDisabled={isLoading?true:false}
                   onClick={handleSubmit}
-                  disabled={isLoading}
+                 
                 >
+                
                 {isLoading ? <LoadingSpinner/> : t("Login")}
                   
                 </Button>
@@ -317,6 +321,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 bgGradient: "linear(to-r, red.400,pink.400)",
                 boxShadow: "xl",
               }}
+              disabled={true}
               onClick={() => navigate("/signup")}
             >
               {t("No Account!SignUp")}
