@@ -64,7 +64,7 @@ export default function JoinOurTeam() {
   const toast = useToast();
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     setIsLoading(true);
     try {
       let res = await axios.post(
@@ -83,7 +83,7 @@ export default function JoinOurTeam() {
           position: "bottom",
         });
         setIsLoading(false);
-       
+
         return;
       }
       if (res.data.msg === "User Does Not Exist") {
@@ -94,7 +94,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "bottom",
         });
-       
+
         setIsLoading(false);
         return;
       }
@@ -108,9 +108,10 @@ export default function JoinOurTeam() {
         });
         sessionStorage.setItem("username", res.data.details.username);
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
-       
+        sessionStorage.setItem("password", res.data.details.password);
+
         setIsLoading(false);
-       
+
         setTimeout(() => navigate("/"), 1000);
       } else {
         toast({
@@ -133,20 +134,17 @@ export default function JoinOurTeam() {
         isClosable: true,
         position: "top",
       });
-     
+
       setIsLoading(false);
       return;
     }
   };
-
- 
 
   function handleClick(lang) {
     i18n.changeLanguage(lang);
   }
 
   return (
-    
     <Box position={"relative"}>
       <Container
         as={SimpleGrid}
@@ -277,9 +275,7 @@ export default function JoinOurTeam() {
                 }}
               />
               <Menu>
-                <MenuButton as={Button}>
-                  {t("Language")}
-                </MenuButton>
+                <MenuButton as={Button}>{t("Language")}</MenuButton>
                 <MenuList>
                   <MenuItem onClick={() => handleClick("en")}>
                     {t("English")}
@@ -295,13 +291,10 @@ export default function JoinOurTeam() {
                   bg={"gray.200"}
                   color={"gray.800"}
                   width={"100%"}
-                  isDisabled={isLoading?true:false}
+                  isDisabled={isLoading ? true : false}
                   onClick={handleSubmit}
-                 
                 >
-                
-                {isLoading ? <LoadingSpinner/> : t("Login")}
-                  
+                  {isLoading ? <LoadingSpinner /> : t("Login")}
                 </Button>
               </Link>
             </Stack>

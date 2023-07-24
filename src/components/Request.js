@@ -1,41 +1,47 @@
 import {
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Link,
   Stack,
   Image,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingSpinner from "./Loading";
 
-
-
-
-export default function Request({}) {
+export default function Request() {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
+
   const inputss = {
-
-
-    username:sessionStorage.getItem("username"),
-    job_id:location.state.job,
+    username: sessionStorage.getItem("username"),
+    job_id: location.state.job,
     phonenumber: sessionStorage.getItem("phoneno"),
-    salary:"",
-    no_of_hours:"",
-    email_id:""
-  
-    
-    
+    salary: "",
+    no_of_hours: "",
+    email_id: "",
   };
   console.log(location);
   const toast = useToast();
@@ -99,23 +105,27 @@ export default function Request({}) {
           <FormControl>
             <FormLabel>Username</FormLabel>
             <Input
-            name="username"
+              name="username"
               type="text"
               value={sessionStorage.getItem("username")}
               required
             />
           </FormControl>
-          
 
           <FormControl>
             <FormLabel>To JobId</FormLabel>
-            <Input name="job_id" type="text" value={location.state.job} required />
+            <Input
+              name="job_id"
+              type="text"
+              value={location.state.job}
+              required
+            />
           </FormControl>
 
           <FormControl>
             <FormLabel>PhoneNo</FormLabel>
             <Input
-             name="phonenumber"
+              name="phonenumber"
               type="number"
               value={sessionStorage.getItem("phoneno")}
               required
@@ -124,17 +134,32 @@ export default function Request({}) {
 
           <FormControl>
             <FormLabel>Salary</FormLabel>
-            <Input name="salary" onChange={(e) => onInputChange(e)} type="number" placeholder="Enter Salary Rs" />
+            <Input
+              name="salary"
+              onChange={(e) => onInputChange(e)}
+              type="number"
+              placeholder="Enter Salary Rs"
+            />
           </FormControl>
 
           <FormControl>
             <FormLabel>Hours</FormLabel>
-            <Input name="no_of_hours" onChange={(e) => onInputChange(e)} type="number" placeholder="Enter Hours" />
+            <Input
+              name="no_of_hours"
+              onChange={(e) => onInputChange(e)}
+              type="number"
+              placeholder="Enter Hours"
+            />
           </FormControl>
 
           <FormControl>
             <FormLabel>Email</FormLabel>
-            <Input name="email_id" onChange={(e) => onInputChange(e)} type="email" placeholder="Enter email" />
+            <Input
+              name="email_id"
+              onChange={(e) => onInputChange(e)}
+              type="email"
+              placeholder="Enter email"
+            />
           </FormControl>
 
           <Stack spacing={6}>
@@ -143,8 +168,13 @@ export default function Request({}) {
               align={"start"}
               justify={"space-between"}
             ></Stack>
-            <Button colorScheme={"blue"} variant={"solid"} onClick={handleSubmit} isDisabled={isLoading?true:false}>
-            {isLoading ? <LoadingSpinner/> : "Request"}
+            <Button
+              colorScheme={"blue"}
+              variant={"solid"}
+              onClick={handleSubmit}
+              isDisabled={isLoading ? true : false}
+            >
+              {isLoading ? <LoadingSpinner /> : "Request"}
             </Button>
           </Stack>
         </Stack>

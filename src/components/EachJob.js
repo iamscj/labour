@@ -15,7 +15,6 @@ import { Button } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import LoadingSpinner from "./Loading";
 
-
 const EachJob = () => {
   const [jobs, setJobs] = useState([]);
   const [likedjobs, setLiked] = useState([]);
@@ -26,7 +25,7 @@ const EachJob = () => {
   const [filtered, setfiltered] = useState({
     price: "no_price",
     hours: "no_hours",
-    distance: "no_distance"
+    distance: "no_distance",
   });
   const navigate = useNavigate();
   const handleClick = async (job_id) => {
@@ -46,6 +45,22 @@ const EachJob = () => {
       },
     });
   };
+
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
 
   useEffect(() => {
     axios
@@ -104,59 +119,46 @@ const EachJob = () => {
         })
         .catch((error) => {
           // console.log(error);
-          
         });
     }
-    
   }, [field]);
   // console.log(countlikes);
   // function onfiltervalueselected(filtervalue) {
   //   setfiltered(filtervalue);
   // }
- 
+
   const [updatejobs, setUpdatejobs] = useState([]);
- 
- 
+
   useEffect(() => {
-    
-    
-    let arr=jobs;
-   
-   
-   
-    let x=sessionStorage.getItem("latitude");
-   let y=sessionStorage.getItem("longitude");
-   console.log(x);
-   console.log(y);
-   for(let i=0;i<jobs.length;i++)
-   {
-       let xx=arr[i].latitude;
-       let yy=arr[i].longitude;
-       const radius = 6371;
-       xx=xx*(Math.PI / 180);
-       yy=yy*(Math.PI / 180);
-       x=x*(Math.PI / 180);
-       y=y*(Math.PI / 180);
+    let arr = jobs;
 
-       // Haversine formula
-       const dlat =x - xx;
-       const dlon = y - yy;
-       const a = Math.sin(dlat / 2) ** 2 + Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
-       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-       const distance = radius * c;
-       arr[i].expected_distance_range=distance;
-   }
-   setUpdatejobs(arr);
-   
-   console.log(updatejobs);
- 
-  
+    let x = sessionStorage.getItem("latitude");
+    let y = sessionStorage.getItem("longitude");
+    console.log(x);
+    console.log(y);
+    for (let i = 0; i < jobs.length; i++) {
+      let xx = arr[i].latitude;
+      let yy = arr[i].longitude;
+      const radius = 6371;
+      xx = xx * (Math.PI / 180);
+      yy = yy * (Math.PI / 180);
+      x = x * (Math.PI / 180);
+      y = y * (Math.PI / 180);
 
+      // Haversine formula
+      const dlat = x - xx;
+      const dlon = y - yy;
+      const a =
+        Math.sin(dlat / 2) ** 2 +
+        Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = radius * c;
+      arr[i].expected_distance_range = distance;
+    }
+    setUpdatejobs(arr);
 
-
-},
-
-[jobs,updatejobs] );
+    console.log(updatejobs);
+  }, [jobs, updatejobs]);
   //console.log(jobs);
   const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
@@ -251,13 +253,21 @@ const EachJob = () => {
     } else if (filtered.distance === "2_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (updatejobs[i].expected_distance_range > 5 && updatejobs[i].expected_distance_range < 20) arr1.push(jobs[i]);
+        if (
+          updatejobs[i].expected_distance_range > 5 &&
+          updatejobs[i].expected_distance_range < 20
+        )
+          arr1.push(jobs[i]);
       }
       arr3 = arr1;
     } else if (filtered.distance === "3_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (updatejobs[i].expected_distance_range > 20 && updatejobs[i].expected_distance_range < 50) arr1.push(jobs[i]);
+        if (
+          updatejobs[i].expected_distance_range > 20 &&
+          updatejobs[i].expected_distance_range < 50
+        )
+          arr1.push(jobs[i]);
       }
       arr3 = arr1;
     } else if (filtered.distance === "4_distance") {
@@ -286,7 +296,7 @@ const EachJob = () => {
     }
     console.log(arr4);
     setfilteredjobs(arr4);
-  }, [filtered, jobs,updatejobs]);
+  }, [filtered, jobs, updatejobs]);
 
   //console.log(filtered);
   const renderUser = (
@@ -396,8 +406,7 @@ const EachJob = () => {
 
                 <Divider />
 
-                <Box display={"flex"}
-                    justifyContent={"center"}>
+                <Box display={"flex"} justifyContent={"center"}>
                   <Button
                     loadingText="Submitting"
                     size="lg"
@@ -408,7 +417,6 @@ const EachJob = () => {
                     }}
                     width={"200px"}
                     onClick={() => handleRequest(item.job_id)}
-                    
                   >
                     Request
                   </Button>
@@ -451,12 +459,7 @@ const EachJob = () => {
     </div>
   );
 
-  return (
-    <div>
-      {isLoading ? <LoadingSpinner /> : renderUser}
-
-    </div>
-  );
+  return <div>{isLoading ? <LoadingSpinner /> : renderUser}</div>;
 };
 
 export default EachJob;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "animate.css";
 
-import { Box, Center, Heading, Stack, Button, Flex } from "@chakra-ui/react";
+import { Box, Center, Heading, Button, Flex } from "@chakra-ui/react";
 import {
   MdComputer,
   MdBuild,
@@ -24,6 +24,7 @@ import {
 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import axios from "axios";
 
 const AnimatedButton = ({ category, isLeft, navigate, t }) => (
   <Flex
@@ -31,8 +32,9 @@ const AnimatedButton = ({ category, isLeft, navigate, t }) => (
     align="center"
     mb="4"
     key={category.label}
-    className={`animate__animated ${isLeft ? "animate__slideInLeft" : "animate__slideInRight"
-      }`}
+    className={`animate__animated ${
+      isLeft ? "animate__slideInLeft" : "animate__slideInRight"
+    }`}
   >
     <Button
       size={{ base: "md", md: "lg" }}
@@ -139,6 +141,22 @@ const categories = [
 ];
 const Home = ({ t }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
 
   useEffect(() => {
     if (navigator.geolocation) {

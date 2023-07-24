@@ -13,7 +13,6 @@ import {
   Avatar,
   AvatarGroup,
   useBreakpointValue,
- 
   Icon,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -64,10 +63,7 @@ export default function JoinOurTeam() {
     setIsLoading(true);
     let res;
     try {
-      res = await axios.post(
-        "https://server-labour.vercel.app/signup",
-        signup
-      );
+      res = await axios.post("https://server-labour.vercel.app/signup", signup);
       if (res.data.msg === "Username Already Taken") {
         toast({
           title: "Username Already Taken",
@@ -89,8 +85,7 @@ export default function JoinOurTeam() {
         });
         setIsLoading(false);
         setTimeout(() => navigate("/login"), 1000);
-      }
-      else {
+      } else {
         toast({
           title: "Something Went Wrong",
           status: "error",
@@ -221,8 +216,7 @@ export default function JoinOurTeam() {
           </Stack>
           <Box as={"form"} mt={10}>
             <Stack spacing={4}>
-
-            <Input
+              <Input
                 onChange={(e) => onInputChange(e)}
                 name="username"
                 placeholder="Username"
@@ -246,7 +240,7 @@ export default function JoinOurTeam() {
                   color: "gray.500",
                 }}
               />
-             
+
               <Input
                 onChange={(e) => onInputChange(e)}
                 name="password"
@@ -266,9 +260,9 @@ export default function JoinOurTeam() {
                   color={"gray.800"}
                   width={"100%"}
                   onClick={handleSubmit}
-                  isDisabled={isLoading?true:false}
+                  isDisabled={isLoading ? true : false}
                 >
-                  {isLoading ? <LoadingSpinner/> : "Signup"}
+                  {isLoading ? <LoadingSpinner /> : "Signup"}
                 </Button>
               </Link>
             </Stack>

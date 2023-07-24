@@ -11,7 +11,7 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -28,11 +28,8 @@ import LoadingSpinner from "./Loading";
 // import { useEffect } from "react";
 
 const inputss = {
+  username: sessionStorage.getItem("username"),
 
-
-  username:sessionStorage.getItem("username"),
-  
-  
   phonenumber: sessionStorage.getItem("phoneno"),
   field: "",
   max_salary: "",
@@ -47,7 +44,7 @@ const inputss = {
 function Post() {
   const [inputfeild, setFeild] = useState(inputss);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(inputss);
+  console.log(inputfeild);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -55,6 +52,22 @@ function Post() {
   const onInputChange = (e) => {
     setFeild({ ...inputfeild, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
 
   const handleLocation = async (e) => {
     if (navigator.geolocation) {
@@ -127,10 +140,11 @@ function Post() {
   return (
     <Box
       display="flex"
-  alignItems="center"
-  justifyContent="Center"
-  bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
-  height="200vh" style={{ margin: 0 }}
+      alignItems="center"
+      justifyContent="Center"
+      bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
+      height="200vh"
+      style={{ margin: 0 }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
         <form>
@@ -324,7 +338,7 @@ function Post() {
                     <PopoverCloseButton />
                     <PopoverHeader>Select Your Location</PopoverHeader>
                     <PopoverBody>
-                      <MapComponent setlat={setFeild}/>
+                      <MapComponent setlat={setFeild} />
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
@@ -355,9 +369,9 @@ function Post() {
             size="lg"
             width="100%"
             onClick={handleSubmit}
-            isDisabled={isLoading?true:false}
+            isDisabled={isLoading ? true : false}
           >
-            {isLoading ? <LoadingSpinner/> :"Submit"}
+            {isLoading ? <LoadingSpinner /> : "Submit"}
           </Button>
         </form>
       </Box>

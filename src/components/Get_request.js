@@ -6,16 +6,15 @@ import {
   Divider,
   Stack,
   Button,
-  Input
+  Input,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverHeader,
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
@@ -23,55 +22,71 @@ import {
 
 const GetRequest = () => {
   const [jobs, setJobs] = useState([]);
-  const handleSubmit1 = async (job_id1,username3,phonenumber3,email_id1) => {
-    let res={
-      status:"yes",
-      job_id:job_id1,
-      username1:sessionStorage.getItem("username"),
-      username2:username3,
-      phonenumber1:sessionStorage.getItem("phoneno"),
-      phonenumber2:phonenumber3,
-      email_id_1:inputfeild.email_id,
-      email_id_2:email_id1
+  const navigate = useNavigate();
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
     }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
     console.log(res);
-    let req=await axios.post(
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
+  const handleSubmit1 = async (job_id1, username3, phonenumber3, email_id1) => {
+    let res = {
+      status: "yes",
+      job_id: job_id1,
+      username1: sessionStorage.getItem("username"),
+      username2: username3,
+      phonenumber1: sessionStorage.getItem("phoneno"),
+      phonenumber2: phonenumber3,
+      email_id_1: inputfeild.email_id,
+      email_id_2: email_id1,
+    };
+    console.log(res);
+    let req = await axios.post(
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
     console.log(req);
   };
-  const handleSubmit2 =  async (job_id1,username3,phonenumber3,email_id1) => {
-    let res={
-      status:"yes1",
-      job_id:job_id1,
-      username1:sessionStorage.getItem("username"),
-      username2:username3,
-      phonenumber1:sessionStorage.getItem("phoneno"),
-      phonenumber2:phonenumber3,
-      email_id_1:inputfeild.email_id,
-      email_id_2:email_id1
-    }
+  const handleSubmit2 = async (job_id1, username3, phonenumber3, email_id1) => {
+    let res = {
+      status: "yes1",
+      job_id: job_id1,
+      username1: sessionStorage.getItem("username"),
+      username2: username3,
+      phonenumber1: sessionStorage.getItem("phoneno"),
+      phonenumber2: phonenumber3,
+      email_id_1: inputfeild.email_id,
+      email_id_2: email_id1,
+    };
     console.log(res);
-    let req=await axios.post(
+    let req = await axios.post(
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
     console.log(req);
   };
-  const handleSubmit3 = async (job_id1,username3,phonenumber3,email_id1) => {
-    let res={
-      status:"no",
-      job_id:job_id1,
-      username1:sessionStorage.getItem("username"),
-      username2:username3,
-      phonenumber1:sessionStorage.getItem("phoneno"),
-      phonenumber2:phonenumber3,
-      email_id_1:inputfeild.email_id,
-      email_id_2:email_id1
-    }
+  const handleSubmit3 = async (job_id1, username3, phonenumber3, email_id1) => {
+    let res = {
+      status: "no",
+      job_id: job_id1,
+      username1: sessionStorage.getItem("username"),
+      username2: username3,
+      phonenumber1: sessionStorage.getItem("phoneno"),
+      phonenumber2: phonenumber3,
+      email_id_1: inputfeild.email_id,
+      email_id_2: email_id1,
+    };
     console.log(res);
-    let req=await axios.post(
+    let req = await axios.post(
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
@@ -101,7 +116,7 @@ const GetRequest = () => {
         // console.log(error);
       });
   }, []);
-  const [inputfeild, setFeild] = useState('');
+  const [inputfeild, setFeild] = useState("");
   const onInputChange = (e) => {
     setFeild({ ...inputfeild, [e.target.name]: e.target.value });
   };
@@ -187,15 +202,40 @@ const GetRequest = () => {
                       <PopoverCloseButton />
 
                       <PopoverBody>
-                      <Box>
-                      <Input name="email_id" onChange={(e) => onInputChange(e)} type="email" placeholder="Enter email" />
-                      </Box>
+                        <Box>
+                          <Input
+                            name="email_id"
+                            onChange={(e) => onInputChange(e)}
+                            type="email"
+                            placeholder="Enter email"
+                          />
+                        </Box>
                         <Box display={"flex"} justifyContent={"space-between"}>
-                          <Button colorScheme="blue"  onClick={() => handleSubmit1(item.job_id,item.username,item.phonenumber,item.email_id)}>
+                          <Button
+                            colorScheme="blue"
+                            onClick={() =>
+                              handleSubmit1(
+                                item.job_id,
+                                item.username,
+                                item.phonenumber,
+                                item.email_id
+                              )
+                            }
+                          >
                             Accept&Delete
                           </Button>
 
-                          <Button colorScheme="blue"   onClick={() => handleSubmit2(item.job_id,item.username,item.phonenumber,item.email_id)}>
+                          <Button
+                            colorScheme="blue"
+                            onClick={() =>
+                              handleSubmit2(
+                                item.job_id,
+                                item.username,
+                                item.phonenumber,
+                                item.email_id
+                              )
+                            }
+                          >
                             Accept
                           </Button>
                         </Box>
@@ -212,7 +252,14 @@ const GetRequest = () => {
                       bg: "blue.500",
                     }}
                     width={"30%"}
-                    onClick={() => handleSubmit3(item.job_id,item.username,item.phonenumber,item.email_id)}
+                    onClick={() =>
+                      handleSubmit3(
+                        item.job_id,
+                        item.username,
+                        item.phonenumber,
+                        item.email_id
+                      )
+                    }
                   >
                     Decline
                   </Button>

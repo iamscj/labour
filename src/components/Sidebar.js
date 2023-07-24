@@ -4,9 +4,7 @@ import {
   Box,
   CloseButton,
   Flex,
-  Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -50,7 +48,7 @@ let SimpleSidebar = (props) => {
 const inputss = {
   price: "no_price",
   hours: "no_hours",
-  distance:"no_distance"
+  distance: "no_distance",
 };
 
 const SidebarContent = ({ pro, onClose, ...rest }) => {
@@ -125,7 +123,6 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
         </Select>
       </div>
 
-
       <Text
         fontSize="2xl"
         fontFamily="monospace"
@@ -153,41 +150,41 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
-  return (
-    <Link
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "cyan.400",
-          color: "white",
-        }}
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
-  );
-};
+// const NavItem = ({ icon, children, ...rest }) => {
+//   return (
+//     <Link
+//       href="#"
+//       style={{ textDecoration: "none" }}
+//       _focus={{ boxShadow: "none" }}
+//     >
+//       <Flex
+//         align="center"
+//         p="4"
+//         mx="4"
+//         borderRadius="lg"
+//         role="group"
+//         cursor="pointer"
+//         _hover={{
+//           bg: "cyan.400",
+//           color: "white",
+//         }}
+//         {...rest}
+//       >
+//         {icon && (
+//           <Icon
+//             mr="4"
+//             fontSize="16"
+//             _groupHover={{
+//               color: "white",
+//             }}
+//             as={icon}
+//           />
+//         )}
+//         {children}
+//       </Flex>
+//     </Link>
+//   );
+// };
 
 const MobileNav = ({ onOpen, ...rest }) => {
   return (
