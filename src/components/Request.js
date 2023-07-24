@@ -55,6 +55,57 @@ export default function Request() {
     setIsLoading(true);
     let res;
     console.log(inputfeild);
+    if (inputfeild.salary.length === 0) {
+      toast({
+          title: "Salary shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+  }
+
+  if (inputfeild.no_of_hours.length === 0) {
+    toast({
+        title: "Hours shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+    });
+    setIsLoading(false);
+    return;
+}
+
+
+if (inputfeild.email_id.length === 0) {
+  toast({
+      title: "Email shouldn't be empty",
+      status: "error",
+      duration: 4000,
+      isClosable: true,
+      position: "bottom",
+  });
+  setIsLoading(false);
+  return;
+}
+
+if (!inputfeild.email_id.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+  toast({
+      title: "Enter Correct Email Id",
+      status: "error",
+      duration: 4000,
+      isClosable: true,
+      position: "bottom",
+  });
+  setIsLoading(false);
+  return;
+}
+
+
+
     try {
       res = await axios.post(
         "https://server-labour.vercel.app/raise-request",
@@ -64,6 +115,18 @@ export default function Request() {
       if (res.error === "Internal Server Error") {
         toast({
           title: "Check username",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      if (res.data.msg === "Cannot Raise Request For Self Jobs") {
+        toast({
+          title: "Cannot Raise Request For Self Jobs",
           status: "error",
           duration: 4000,
           isClosable: true,

@@ -66,6 +66,31 @@ export default function JoinOurTeam() {
     e.preventDefault();
 
     setIsLoading(true);
+
+    if (login.password.length< 5) {
+      toast({
+          title: "Password atleast be of length 5",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (login.username.length=== 0) {
+      toast({
+          title: "Username shouldnot be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       let res = await axios.post(
         "https://server-labour.vercel.app/login",

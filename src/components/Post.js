@@ -93,6 +93,108 @@ function Post() {
     e.preventDefault();
     setIsLoading(true);
     //console.log(inputfeild);
+    if (inputfeild.field.length === 0) {
+      toast({
+          title: "Feild shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.max_salary.length === 0) {
+      toast({
+          title: "Max_salary shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary.length === 0) {
+      toast({
+          title: "Min_salary shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+    
+    if (inputfeild.expected_distance_range.length === 0) {
+      toast({
+          title: "Expected_distance_range shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.working_hours.length === 0) {
+      toast({
+          title: "Working_hours shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.description.length === 0) {
+      toast({
+          title: "Description shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.latitude.length === 0) {
+      toast({
+          title: "Set location shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.longitude.length === 0) {
+      toast({
+          title: "Set location shouldn't be empty",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+          position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+
+
     let res;
     try {
       res = await axios.post(
