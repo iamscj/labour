@@ -79,13 +79,14 @@ function Post() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(inputfeild);
+    //console.log(inputfeild);
     let res;
     try {
       res = await axios.post(
         "https://server-labour.vercel.app/create-job",
         inputfeild
       );
+      console.log(inputfeild);
 
       if (res.data.error === "Check username") {
         toast({
