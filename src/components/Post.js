@@ -29,7 +29,6 @@ import LoadingSpinner from "./Loading";
 
 const inputss = {
   username: sessionStorage.getItem("username"),
-
   phonenumber: sessionStorage.getItem("phoneno"),
   field: "",
   max_salary: "",
@@ -93,6 +92,9 @@ function Post() {
     e.preventDefault();
     setIsLoading(true);
     //console.log(inputfeild);
+    inputfeild.username=sessionStorage.getItem("username");
+    inputfeild.phonenumber=sessionStorage.getItem("phoneno");
+
     if (inputfeild.field.length === 0) {
       toast({
           title: "Feild shouldn't be empty",
