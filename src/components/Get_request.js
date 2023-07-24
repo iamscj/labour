@@ -3,46 +3,101 @@ import {
   Flex,
   Heading,
   Text,
-  
   Divider,
   Stack,
-  Button
+  Button,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverArrow,
+  PopoverCloseButton,
+} from "@chakra-ui/react";
 
 const GetRequest = () => {
   const [jobs, setJobs] = useState([]);
-  
-  useEffect(() => {
-    
-      axios
-        .get(
-          `https://server-labour.vercel.app/get-requests-for-user/${sessionStorage.getItem("username")}`
-        )
-        .then((response) => {
-            console.log(response.data);
-            let temp = response.data;
+  const handleSubmit1 = async (job_id1,username3,phonenumber3) => {
+    let res={
+      status:"yes",
+      job_id:job_id1,
+      username1:sessionStorage.getItem("username"),
+      username2:username3,
+      phonenumber1:sessionStorage.getItem("phoneno"),
+      phonenumber2:phonenumber3
+    }
+    console.log(res);
+    let req=await axios.post(
+      "https://server-labour.vercel.app/accept-reject-request",
+      res
+    );
+    console.log(req);
+  };
+  const handleSubmit2 =  async (job_id1,username3,phonenumber3) => {
+    let res={
+      status:"yes1",
+      job_id:job_id1,
+      username1:sessionStorage.getItem("username"),
+      username2:username3,
+      phonenumber1:sessionStorage.getItem("phoneno"),
+      phonenumber2:phonenumber3
+    }
+    console.log(res);
+    let req=await axios.post(
+      "https://server-labour.vercel.app/accept-reject-request",
+      res
+    );
+    console.log(req);
+  };
+  const handleSubmit3 = async (job_id1,username3,phonenumber3) => {
+    let res={
+      status:"no",
+      job_id:job_id1,
+      username1:sessionStorage.getItem("username"),
+      username2:username3,
+      phonenumber1:sessionStorage.getItem("phoneno"),
+      phonenumber2:phonenumber3
+    }
+    console.log(res);
+    let req=await axios.post(
+      "https://server-labour.vercel.app/accept-reject-request",
+      res
+    );
+    console.log(req);
+  };
 
-            let arr = [];
-            if(temp!=="No Jobs Posted")
-            for (let i = 0; i < temp.length; i++) {
-              arr.push(temp[i]);
-            }
-    
-            setJobs(arr);
-        })
-        .catch((error) => {
-          // console.log(error);
-        });
-    
+  useEffect(() => {
+    axios
+      .get(
+        `https://server-labour.vercel.app/get-requests-for-user/${sessionStorage.getItem(
+          "username"
+        )}`
+      )
+      .then((response) => {
+        console.log(response.data);
+        let temp = response.data;
+
+        let arr = [];
+        if (temp !== "No Jobs Posted")
+          for (let i = 0; i < temp.length; i++) {
+            arr.push(temp[i]);
+          }
+
+        setJobs(arr);
+      })
+      .catch((error) => {
+        // console.log(error);
+      });
   }, []);
 
   return (
     <div>
-      {jobs.length>0 ? (
+      {jobs.length > 0 ? (
         jobs.map((item) => (
           <div key={item.job_id}>
             <Box
@@ -98,8 +153,43 @@ const GetRequest = () => {
                 </Stack>
 
                 <Divider />
+                <Box display={"flex"} justifyContent={"space-between"}>
+                  <Popover placement="top">
+                    <PopoverTrigger>
+                      <Button
+                        loadingText="Submitting"
+                        size="lg"
+                        bg={"black"}
+                        color={"white"}
+                        _hover={{
+                          bg: "blue.500",
+                        }}
+                        width={"30%"}
+                      >
+                        Accept
+                      </Button>
+                    </PopoverTrigger>
 
-                <Button
+                    <PopoverContent boxSize="110%">
+                      <PopoverArrow />
+
+                      <PopoverCloseButton />
+
+                      <PopoverBody>
+                        <Box display={"flex"} justifyContent={"space-between"}>
+                          <Button colorScheme="blue"  onClick={() => handleSubmit1(item.job_id,item.username,item.phonenumber)}>
+                            Accept&Delete
+                          </Button>
+
+                          <Button colorScheme="blue"   onClick={() => handleSubmit2(item.job_id,item.username,item.phonenumber)}>
+                            Accept
+                          </Button>
+                        </Box>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+
+                  <Button
                     loadingText="Submitting"
                     size="lg"
                     bg={"black"}
@@ -107,12 +197,12 @@ const GetRequest = () => {
                     _hover={{
                       bg: "blue.500",
                     }}
-                    width={"200px"}
-                   
+                    width={"30%"}
+                    onClick={() => handleSubmit3(item.job_id,item.username,item.phonenumber)}
                   >
-                    Accept
+                    Decline
                   </Button>
-
+                </Box>
                 <Divider />
               </Box>
             </Box>
