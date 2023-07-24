@@ -19,6 +19,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./Loading";
 
 const avatars = [
   {
@@ -51,6 +52,7 @@ const signupInitialValues = {
 
 export default function JoinOurTeam() {
   const [signup, setSignup] = useState(signupInitialValues);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const onInputChange = (e) => {
     setSignup({ ...signup, [e.target.name]: e.target.value });
@@ -59,6 +61,7 @@ export default function JoinOurTeam() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     let res;
     try {
       res = await axios.post(
@@ -73,6 +76,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
       if (res.data.msg === "Successfully signedup") {
@@ -83,6 +87,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "top",
         });
+        setIsLoading(false);
         setTimeout(() => navigate("/login"), 1000);
       }
       else {
@@ -93,6 +98,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "top",
         });
+        setIsLoading(false);
         return;
       }
     } catch (err) {
@@ -104,7 +110,9 @@ export default function JoinOurTeam() {
         isClosable: true,
         position: "bottom",
       });
+      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -258,8 +266,9 @@ export default function JoinOurTeam() {
                   color={"gray.800"}
                   width={"100%"}
                   onClick={handleSubmit}
+                  isDisabled={isLoading?true:false}
                 >
-                  SignUp
+                  {isLoading ? <LoadingSpinner/> : "Signup"}
                 </Button>
               </Link>
             </Stack>

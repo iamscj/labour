@@ -53,7 +53,7 @@ const loginInitialValues = {
   password: "",
 };
 
-export default function JoinOurTeam({ isUserAuthenticated }) {
+export default function JoinOurTeam() {
   const [login, setLogin] = useState(loginInitialValues);
   const [isLoading, setIsLoading] = useState(false);
   const { t, i18n } = useTranslation();
@@ -108,7 +108,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         });
         sessionStorage.setItem("username", res.data.details.username);
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
-        isUserAuthenticated(true);
+       
         setIsLoading(false);
        
         setTimeout(() => navigate("/"), 1000);

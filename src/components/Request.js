@@ -15,13 +15,14 @@ import { useLocation,useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import axios from "axios";
+import LoadingSpinner from "./Loading";
 
 
 
 
 export default function Request({}) {
   const location = useLocation();
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputss = {
 
@@ -45,7 +46,7 @@ export default function Request({}) {
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setIsLoading(true);
     let res;
     console.log(inputfeild);
     try {
@@ -62,6 +63,7 @@ export default function Request({}) {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
 
@@ -72,6 +74,7 @@ export default function Request({}) {
         isClosable: true,
         position: "top",
       });
+      setIsLoading(false);
 
       setTimeout(() => navigate("/"), 1000);
     } catch (err) {
@@ -83,7 +86,9 @@ export default function Request({}) {
         isClosable: true,
         position: "bottom",
       });
+      setIsLoading(false);
     }
+    setIsLoading(false);
     //console.log(res.data.error);
   };
   return (
@@ -138,8 +143,8 @@ export default function Request({}) {
               align={"start"}
               justify={"space-between"}
             ></Stack>
-            <Button colorScheme={"blue"} variant={"solid"} onClick={handleSubmit}>
-              Request
+            <Button colorScheme={"blue"} variant={"solid"} onClick={handleSubmit} isDisabled={isLoading?true:false}>
+            {isLoading ? <LoadingSpinner/> : "Request"}
             </Button>
           </Stack>
         </Stack>

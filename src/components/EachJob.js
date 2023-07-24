@@ -396,7 +396,8 @@ const EachJob = () => {
 
                 <Divider />
 
-                <Box>
+                <Box display={"flex"}
+                    justifyContent={"center"}>
                   <Button
                     loadingText="Submitting"
                     size="lg"
@@ -407,6 +408,7 @@ const EachJob = () => {
                     }}
                     width={"200px"}
                     onClick={() => handleRequest(item.job_id)}
+                    
                   >
                     Request
                   </Button>
