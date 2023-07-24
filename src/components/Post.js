@@ -92,16 +92,16 @@ function Post() {
     e.preventDefault();
     setIsLoading(true);
     //console.log(inputfeild);
-    inputfeild.username=sessionStorage.getItem("username");
-    inputfeild.phonenumber=sessionStorage.getItem("phoneno");
+    inputfeild.username = sessionStorage.getItem("username");
+    inputfeild.phonenumber = sessionStorage.getItem("phoneno");
 
     if (inputfeild.field.length === 0) {
       toast({
-          title: "Feild shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Feild shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -109,11 +109,11 @@ function Post() {
 
     if (inputfeild.max_salary.length === 0) {
       toast({
-          title: "Max_salary shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Max_salary shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -121,23 +121,23 @@ function Post() {
 
     if (inputfeild.min_salary.length === 0) {
       toast({
-          title: "Min_salary shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Min_salary shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
     }
-    
+
     if (inputfeild.expected_distance_range.length === 0) {
       toast({
-          title: "Expected_distance_range shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Expected_distance_range shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -146,11 +146,11 @@ function Post() {
 
     if (inputfeild.working_hours.length === 0) {
       toast({
-          title: "Working_hours shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Working_hours shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -159,11 +159,11 @@ function Post() {
 
     if (inputfeild.description.length === 0) {
       toast({
-          title: "Description shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Description shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -171,11 +171,11 @@ function Post() {
 
     if (inputfeild.latitude.length === 0) {
       toast({
-          title: "Set location shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Set location shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -184,11 +184,11 @@ function Post() {
 
     if (inputfeild.longitude.length === 0) {
       toast({
-          title: "Set location shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Set location shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -247,11 +247,11 @@ function Post() {
       alignItems="center"
       justifyContent="Center"
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
-      height="200vh"
-      style={{ margin: 0 }}
+      height="100vh"
+      style={{ margin: 0, overflow: "hidden" }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
-        <form>
+        <form style={{ margin: 0 }}>
           <Grid
             templateColumns="repeat(2, 1fr)"
             templateRows="repeat(3, 1fr)"

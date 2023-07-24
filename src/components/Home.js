@@ -32,9 +32,8 @@ const AnimatedButton = ({ category, isLeft, navigate, t }) => (
     align="center"
     mb="4"
     key={category.label}
-    className={`animate__animated ${
-      isLeft ? "animate__slideInLeft" : "animate__slideInRight"
-    }`}
+    className={`animate__animated ${isLeft ? "animate__slideInLeft" : "animate__slideInRight"
+      }`}
   >
     <Button
       size={{ base: "md", md: "lg" }}
@@ -183,7 +182,7 @@ const Home = ({ t }) => {
       <Box
         p={{ base: "2", md: "10" }}
         bgGradient="linear(to-r, #1A202C, #2D3748)" // modified background gradient
-        minH="80vh"
+        minH="90vh"
         display="flex"
         flexDirection="column"
         justifyContent="center"
