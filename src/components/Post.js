@@ -225,8 +225,9 @@ function Post() {
         position: "top",
       });
       setIsLoading(false);
-      setTimeout(() => navigate("/"), 1000);
-    } catch (err) {
+      navigate("/")
+    }
+    catch (err) {
       console.log(res.data);
       toast({
         title: res,

@@ -63,52 +63,52 @@ export default function JoinOurTeam() {
     setIsLoading(true);
     if (signup.username.length === 0) {
       toast({
-          title: "Username shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Username shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
-  }
+    }
 
-  if (signup.password.length <5) {
-    toast({
+    if (signup.password.length < 5) {
+      toast({
         title: "Password atleast be of length 5",
         status: "error",
         duration: 4000,
         isClosable: true,
         position: "bottom",
-    });
-    setIsLoading(false);
-    return;
-}
+      });
+      setIsLoading(false);
+      return;
+    }
 
-if (signup.phonenumber.length!== 10) {
-  toast({
-      title: "Phonenumber must of length 10",
-      status: "error",
-      duration: 4000,
-      isClosable: true,
-      position: "bottom",
-  });
-  setIsLoading(false);
-  return;
-}
+    if (signup.phonenumber.length !== 10) {
+      toast({
+        title: "Phonenumber must of length 10",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
 
-if (!signup.phonenumber.match(/^\d{10}$/)) {
-  toast({
-      title: "Enter Correct Phone Number",
-      status: "error",
-      duration: 4000,
-      isClosable: true,
-      position: "bottom",
-  });
-  return;
-}
+    if (!signup.phonenumber.match(/^\d{10}$/)) {
+      toast({
+        title: "Enter Correct Phone Number",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
 
-  
+
 
     let res;
     try {
@@ -133,7 +133,7 @@ if (!signup.phonenumber.match(/^\d{10}$/)) {
           position: "top",
         });
         setIsLoading(false);
-        setTimeout(() => navigate("/login"), 1000);
+        navigate("/login")
       } else {
         toast({
           title: "Something Went Wrong",

@@ -57,52 +57,52 @@ export default function Request() {
     console.log(inputfeild);
     if (inputfeild.salary.length === 0) {
       toast({
-          title: "Salary shouldn't be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Salary shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
-  }
+    }
 
-  if (inputfeild.no_of_hours.length === 0) {
-    toast({
+    if (inputfeild.no_of_hours.length === 0) {
+      toast({
         title: "Hours shouldn't be empty",
         status: "error",
         duration: 4000,
         isClosable: true,
         position: "bottom",
-    });
-    setIsLoading(false);
-    return;
-}
+      });
+      setIsLoading(false);
+      return;
+    }
 
 
-if (inputfeild.email_id.length === 0) {
-  toast({
-      title: "Email shouldn't be empty",
-      status: "error",
-      duration: 4000,
-      isClosable: true,
-      position: "bottom",
-  });
-  setIsLoading(false);
-  return;
-}
+    if (inputfeild.email_id.length === 0) {
+      toast({
+        title: "Email shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
 
-if (!inputfeild.email_id.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-  toast({
-      title: "Enter Correct Email Id",
-      status: "error",
-      duration: 4000,
-      isClosable: true,
-      position: "bottom",
-  });
-  setIsLoading(false);
-  return;
-}
+    if (!inputfeild.email_id.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+      toast({
+        title: "Enter Correct Email Id",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
 
 
 
@@ -145,7 +145,7 @@ if (!inputfeild.email_id.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(
       });
       setIsLoading(false);
 
-      setTimeout(() => navigate("/"), 1000);
+      navigate("/")
     } catch (err) {
       //console.log(res.data);
       toast({

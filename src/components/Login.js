@@ -67,25 +67,25 @@ export default function JoinOurTeam() {
 
     setIsLoading(true);
 
-    if (login.password.length< 5) {
+    if (login.password.length < 5) {
       toast({
-          title: "Password atleast be of length 5",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Password atleast be of length 5",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
     }
 
-    if (login.username.length=== 0) {
+    if (login.username.length === 0) {
       toast({
-          title: "Username shouldnot be empty",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-          position: "bottom",
+        title: "Username shouldnot be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
       });
       setIsLoading(false);
       return;
@@ -136,8 +136,7 @@ export default function JoinOurTeam() {
         sessionStorage.setItem("password", res.data.details.password);
 
         setIsLoading(false);
-
-        setTimeout(() => navigate("/"), 1000);
+        navigate("/")
       } else {
         toast({
           title: t("Something Went Wrong"),

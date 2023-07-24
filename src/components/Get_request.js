@@ -54,7 +54,7 @@ const GetRequest = () => {
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
-    console.log(req);
+    window.location.reload(false)
   };
   const handleSubmit2 = async (job_id1, username3, phonenumber3, email_id1) => {
     let res = {
@@ -72,7 +72,7 @@ const GetRequest = () => {
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
-    console.log(req);
+    window.location.reload(false)
   };
   const handleSubmit3 = async (job_id1, username3, phonenumber3, email_id1) => {
     let res = {
@@ -90,7 +90,7 @@ const GetRequest = () => {
       "https://server-labour.vercel.app/accept-reject-request",
       res
     );
-    console.log(req);
+    window.location.reload(false)
   };
 
   useEffect(() => {
@@ -292,11 +292,8 @@ const GetRequest = () => {
               color="gray.700"
               textAlign={"center"}
             >
-              No Jobs Found
+              No Requests Found
             </Heading>
-            <Text fontSize="sm" mt={1} color="gray.600" textAlign={"center"}>
-              Please Search Again
-            </Text>
           </Box>
         </Box>
       )}
