@@ -31,6 +31,7 @@ export default function Request({}) {
     phonenumber: sessionStorage.getItem("phoneno"),
     salary:"",
     no_of_hours:"",
+    email_id:""
   
     
     
@@ -124,6 +125,11 @@ export default function Request({}) {
           <FormControl>
             <FormLabel>Hours</FormLabel>
             <Input name="no_of_hours" onChange={(e) => onInputChange(e)} type="number" placeholder="Enter Hours" />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input name="email_id" onChange={(e) => onInputChange(e)} type="email" placeholder="Enter email" />
           </FormControl>
 
           <Stack spacing={6}>
