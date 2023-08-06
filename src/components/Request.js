@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import LoadingSpinner from "./Loading";
 
-export default function Request() {
+export default function Request({ t }) {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -166,7 +166,7 @@ export default function Request() {
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading fontSize={"2xl"}>Fill out form to request</Heading>
           <FormControl>
-            <FormLabel>Username</FormLabel>
+            <FormLabel>{t('Username')}</FormLabel>
             <Input
               name="username"
               type="text"
@@ -176,7 +176,7 @@ export default function Request() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>To JobId</FormLabel>
+            <FormLabel>{t('To JobId')}</FormLabel>
             <Input
               name="job_id"
               type="text"
@@ -186,7 +186,7 @@ export default function Request() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>PhoneNo</FormLabel>
+            <FormLabel>{t('PhoneNo')}</FormLabel>
             <Input
               name="phonenumber"
               type="number"
@@ -196,7 +196,7 @@ export default function Request() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Salary</FormLabel>
+            <FormLabel>{t('Salary')}</FormLabel>
             <Input
               name="salary"
               onChange={(e) => onInputChange(e)}
@@ -206,7 +206,7 @@ export default function Request() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Hours</FormLabel>
+            <FormLabel>{t('Hours')}</FormLabel>
             <Input
               name="no_of_hours"
               onChange={(e) => onInputChange(e)}
@@ -216,7 +216,7 @@ export default function Request() {
           </FormControl>
 
           <FormControl>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>{t('Email')}</FormLabel>
             <Input
               name="email_id"
               onChange={(e) => onInputChange(e)}

@@ -74,15 +74,15 @@ const Navbar = ({ t }) => {
                 px={4}
                 py={2}
               >
-                {"Requests"}
+                {t("Requests")}
               </Button>
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />
               <PopoverCloseButton />
-              <PopoverHeader>Requests</PopoverHeader>
+              <PopoverHeader>{t("Requests")}</PopoverHeader>
               <PopoverBody>
-                <GetRequest />
+                <GetRequest t={t} />
               </PopoverBody>
             </PopoverContent>
           </Popover>
@@ -139,7 +139,7 @@ const Navbar = ({ t }) => {
                 navigate("/getrequest");
               }}
             >
-              {"Requests"}
+              {t("Requests")}
             </Button>
             <Button
               colorScheme="blue"

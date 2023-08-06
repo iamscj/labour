@@ -15,13 +15,15 @@ import { Button } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import LoadingSpinner from "./Loading";
 
-const EachJob = () => {
+const EachJob = ({ t }) => {
   const [jobs, setJobs] = useState([]);
   const [likedjobs, setLiked] = useState([]);
   const [countjobss, setcountjobs] = useState([]);
   const [countlikes, setcountlikes] = useState([]);
   const [renderpost, setrenderpost] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [filteredjobs, setfilteredjobs] = useState([]);
   const [filtered, setfiltered] = useState({
     price: "no_price",
     hours: "no_hours",
@@ -128,39 +130,49 @@ const EachJob = () => {
   // }
 
   const [updatejobs, setUpdatejobs] = useState([]);
+  const ff = (lat1, lon1, lat2, lon2) => {
+
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) *
+      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const d = R * c; // in metres
+    console.log("ameya ", d)
+    return d / 1000;
+  };
+
 
   useEffect(() => {
+    const xUser = sessionStorage.getItem("latitude");
+    const yUser = sessionStorage.getItem("longitude");
+    console.log("shfdshfkdsjb")
+    console.log(xUser);
+    console.log(yUser);
     let arr = jobs;
-
-    let x = sessionStorage.getItem("latitude");
-    let y = sessionStorage.getItem("longitude");
-    console.log(x);
-    console.log(y);
-    for (let i = 0; i < jobs.length; i++) {
-      let xx = arr[i].latitude;
-      let yy = arr[i].longitude;
-      const radius = 6371;
-      xx = xx * (Math.PI / 180);
-      yy = yy * (Math.PI / 180);
-      x = x * (Math.PI / 180);
-      y = y * (Math.PI / 180);
-
-      // Haversine formula
-      const dlat = x - xx;
-      const dlon = y - yy;
-      const a =
-        Math.sin(dlat / 2) ** 2 +
-        Math.cos(x) * Math.cos(xx) * Math.sin(dlon / 2) ** 2;
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const distance = radius * c;
+    let i = 0;
+    const updatedJobs = jobs.map((job) => {
+      const xx = job.latitude;
+      const yy = job.longitude;
+      const distance = ff(xUser, yUser, xx, yy);
       arr[i].expected_distance_range = distance;
-    }
+      console.log(arr.expected_distance_range)
+      i++;
+    });
+    // for (let i = 0; i < arr.length; i++) {
+    //   console.log(arr[i])
+    // }
     setUpdatejobs(arr);
+    console.log("hiiii", updatejobs);
+  }, [jobs]);
 
-    console.log(updatejobs);
-  }, [jobs, updatejobs]);
   //console.log(jobs);
-  const [filteredjobs, setfilteredjobs] = useState([]);
   useEffect(() => {
     let arr = [];
     if (filtered.price === "no_price") {
@@ -253,21 +265,13 @@ const EachJob = () => {
     } else if (filtered.distance === "2_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (
-          updatejobs[i].expected_distance_range > 5 &&
-          updatejobs[i].expected_distance_range < 20
-        )
-          arr1.push(jobs[i]);
+        if (updatejobs[i].expected_distance_range > 5 && updatejobs[i].expected_distance_range < 20) arr1.push(jobs[i]);
       }
       arr3 = arr1;
     } else if (filtered.distance === "3_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
-        if (
-          updatejobs[i].expected_distance_range > 20 &&
-          updatejobs[i].expected_distance_range < 50
-        )
-          arr1.push(jobs[i]);
+        if (updatejobs[i].expected_distance_range > 20 && updatejobs[i].expected_distance_range < 50) arr1.push(jobs[i]);
       }
       arr3 = arr1;
     } else if (filtered.distance === "4_distance") {
@@ -296,12 +300,12 @@ const EachJob = () => {
     }
     console.log(arr4);
     setfilteredjobs(arr4);
-  }, [filtered, jobs, updatejobs]);
+  }, [filtered, jobs]);
 
   //console.log(filtered);
   const renderUser = (
     <div>
-      <SimpleSidebar onfiltervalueselected={setfiltered} />
+      <SimpleSidebar onfiltervalueselected={setfiltered} t={t} />
       {filteredjobs.length ? (
         filteredjobs.map((item) => (
           <div key={item.job_id}>
@@ -323,7 +327,7 @@ const EachJob = () => {
               <Box>
                 <Box bg="gray.100" p={4}>
                   <Heading size="md" fontWeight="bold" color="gray.700">
-                    Category: {item.field}
+                    {t('Category')} : {item.field}
                   </Heading>
                   <Text fontSize="sm" mt={1} color="gray.600">
                     {item.job_id}
@@ -333,15 +337,15 @@ const EachJob = () => {
                 <Flex p={4} alignItems="center">
                   <Box>
                     <Heading fontSize="2xl" fontWeight="semibold">
-                      Username: {item.username}
+                      {t('Username')}: {item.username}
                     </Heading>
                     <Text color="gray.500" fontSize="sm">
-                      Location:{item.latitude},{item.longitude}
+                      {t('Location')}:{item.latitude},{item.longitude}
                     </Text>
                   </Box>
                   <Box ml="auto">
                     <Badge borderRadius="full" px="2" colorScheme="green">
-                      Full-time
+                      {t('Full-time')}
                     </Badge>
                   </Box>
                 </Flex>
@@ -351,7 +355,7 @@ const EachJob = () => {
                 <Stack p={4} direction={["column", "row"]} spacing={4}>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      Salary:
+                      {t('Salary')}:
                     </Text>
                     <Text color="gray.600">
                       {item.min_salary} - {item.max_salary}Rs
@@ -359,13 +363,13 @@ const EachJob = () => {
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      Working Hours:
+                      {t('Working Hours')}:
                     </Text>
                     <Text color="gray.600">{item.working_hours}Hr</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      Distance:
+                      {t('Distance')}:
                     </Text>
                     <Text color="gray.600">
                       {item.expected_distance_range}Kms
@@ -377,7 +381,7 @@ const EachJob = () => {
 
                 <Box p={4}>
                   <Text fontSize="sm" color="gray.600">
-                    Job Description: {item.description}
+                    {t('Job Description')}: {item.description}
                   </Text>
                 </Box>
                 <Divider />
@@ -395,7 +399,7 @@ const EachJob = () => {
                     <ArrowUpIcon />
                   </Button>
                   <Box display={"flex"} margin={"0px 10px 0px 0px"}>
-                    <Text fontWeight="bold">UpVotes:</Text>
+                    <Text fontWeight="bold">{t('UpVotes')}:</Text>
                     <Text margin={"0px 0px 0px 5px"}>
                       {countjobss.indexOf(item.job_id) !== -1
                         ? countlikes[countjobss.indexOf(item.job_id)]
@@ -416,9 +420,11 @@ const EachJob = () => {
                       bg: "blue.500",
                     }}
                     width={"200px"}
+                    mt="10px"
+                    mb="10px"
                     onClick={() => handleRequest(item.job_id)}
                   >
-                    Request
+                    {t('Request')}
                   </Button>
                 </Box>
               </Box>
@@ -448,10 +454,10 @@ const EachJob = () => {
               color="gray.700"
               textAlign={"center"}
             >
-              No Jobs Found
+              {t('No Jobs Found')}
             </Heading>
             <Text fontSize="sm" mt={1} color="gray.600" textAlign={"center"}>
-              Please Search Again
+              {t('Please Search Again')}
             </Text>
           </Box>
         </Box>

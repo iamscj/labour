@@ -40,7 +40,7 @@ const inputss = {
   longitude: "",
 };
 
-function Post() {
+function Post({ t }) {
   const [inputfeild, setFeild] = useState(inputss);
   const [isLoading, setIsLoading] = useState(false);
   console.log(inputfeild);
@@ -261,7 +261,7 @@ function Post() {
           >
             <FormControl gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Username
+                {t('Username')}
               </FormLabel>
               <Input
                 type="text"
@@ -278,7 +278,7 @@ function Post() {
 
             <FormControl gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Phone No
+                {t('Phone No')}
               </FormLabel>
               <InputGroup>
                 <InputLeftAddon children="+91" />
@@ -298,48 +298,50 @@ function Post() {
             </FormControl>
 
             <FormControl gridColumn="span 2" isRequired>
-              <FormLabel>Feild</FormLabel>
+              <FormLabel>{t('Feild')}</FormLabel>
               <Select
                 onChange={(e) => onInputChange(e)}
-                placeholder="Choose Feild"
+                placeholder={t("Choose Feild")}
                 size="md"
                 name="field"
               >
-                <option value="computer-service">Computer-Service</option>
-                <option value="plumbing">Plumbing</option>
-                <option value="housekeeping">Housekeeping</option>
-                <option value="electrician"> Electrician </option>
-                <option value="painting"> Painting</option>
-                <option value="massage">Massage</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="fitness">Fitness</option>
-                <option value="golf course">Golf Course</option>
-                <option value="music">Music</option>
-                <option value="movie">Movie</option>
-                <option value="camera">Camera</option>
-                <option value="shopping">Shopping</option>
-                <option value="event">Event</option>
-                <option value="flight">Flight</option>
-                <option value="shipping">Shipping</option>
-                <option value="bussiness">Business</option>
-                <option value="childcare">Childcare</option>
+                <option value="computer-service">{t('Computer-Service')}</option>
+                <option value="plumbing">{t('Plumbing')}</option>
+                <option value="electronics">{t('Electrician')}</option>
+                <option value="housekeeping">{t('Housekeeping')}</option>
+                <option value="electrician">{t('Electrician')}</option>
+                <option value="painting">{t('Painting')}</option>
+                <option value="massage">{t('Massage')}</option>
+                <option value="restaurant">{t('Restaurant')}</option>
+                <option value="fitness">{t('Fitness')}</option>
+                <option value="golf-course">{t('Golf Course')}</option>
+                <option value="music">{t('Music')}</option>
+                <option value="movie">{t('Movie')}</option>
+                <option value="camera">{t('Camera')}</option>
+                <option value="shopping">{t('Shopping')}</option>
+                <option value="event">{t('Event')}</option>
+                <option value="flight">{t('Flight')}</option>
+                <option value="shipping">{t('Shipping')}</option>
+                <option value="bussiness">{t('Business')}</option>
+                <option value="childcare">{t('Childcare')}</option>
+
               </Select>
             </FormControl>
 
             <FormControl gridColumn="span 2" isRequired={true}>
               <FormLabel color="gray.800" fontWeight="bold">
-                Salary
+                {t('Salary')}
               </FormLabel>
 
               <InputGroup>
-                <InputLeftAddon children="min" />
+                <InputLeftAddon children={t("min")} />
                 <Input
                   onChange={(e) => onInputChange(e)}
                   type="number"
                   name="min_salary"
                   borderRadius="md"
                   bg=""
-                  placeholder="Salary In Rs"
+                  placeholder={t("Salary In Rs")}
                   _focus={{ borderColor: "black.500", bg: "" }}
                   border={"none"}
                   borderBottom={"1px"}
@@ -347,14 +349,14 @@ function Post() {
                   isRequired={true}
                 />
 
-                <InputLeftAddon children="max" />
+                <InputLeftAddon children={t("max")} />
                 <Input
                   onChange={(e) => onInputChange(e)}
                   type="number"
                   name="max_salary"
                   borderRadius="md"
                   bg=""
-                  placeholder="Salary In Rs"
+                  placeholder={t("Salary In Rs")}
                   _focus={{ borderColor: "black.500", bg: "" }}
                   border={"none"}
                   borderBottom={"1px"}
@@ -366,14 +368,14 @@ function Post() {
 
             <FormControl isRequired>
               <FormLabel color="gray.800" fontWeight="bold">
-                Available Distance
+                {t("Available Distance")}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="number"
                 name="expected_distance_range"
                 borderRadius="md"
-                placeholder="Distance Kms"
+                placeholder={t("Distance Kms")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
@@ -384,14 +386,14 @@ function Post() {
 
             <FormControl isRequired>
               <FormLabel color="gray.800" fontWeight="bold">
-                Available Hours
+                {t('Available Hours')}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="number"
                 name="working_hours"
                 borderRadius="md"
-                placeholder="Hour"
+                placeholder={t("Hour")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
@@ -402,14 +404,14 @@ function Post() {
 
             <FormControl isRequired gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Description
+                {t('Description')}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="text"
                 name="description"
                 borderRadius="md"
-                placeholder="description"
+                placeholder={t("description")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
@@ -420,7 +422,7 @@ function Post() {
 
             <FormControl isRequired gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Location
+                {t('Location')}
               </FormLabel>
               <Box display={"flex"} justifyContent={"space-around"}>
                 <Popover placement="top" closeOnBlur={false}>
@@ -428,20 +430,20 @@ function Post() {
                     <Button
                       loadingText="Submitting"
                       size="lg"
-                      bg={"black"}
+                      bg={"teal"}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "teal.500",
                       }}
-                      width={"200px"}
+                      width={"250px"}
                     >
-                      Select Location
+                      {t('Select Location')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent>
                     <PopoverArrow />
                     <PopoverCloseButton />
-                    <PopoverHeader>Select Your Location</PopoverHeader>
+                    <PopoverHeader>{t('Select Your Location')}</PopoverHeader>
                     <PopoverBody>
                       <MapComponent setlat={setFeild} />
                     </PopoverBody>
@@ -453,15 +455,15 @@ function Post() {
                 <Button
                   loadingText="Submitting"
                   size="lg"
-                  bg={"black"}
+                  bg={"teal"}
                   color={"white"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "teal.500",
                   }}
-                  width={"200px"}
+                  width={"250px"}
                   onClick={handleLocation}
                 >
-                  Current Location
+                  {t('Current Location')}
                 </Button>
               </Box>
             </FormControl>
@@ -469,14 +471,15 @@ function Post() {
 
           <Button
             type="submit"
-            colorScheme="red"
+            colorScheme="teal"
             mt={6}
             size="lg"
             width="100%"
             onClick={handleSubmit}
             isDisabled={isLoading ? true : false}
+            isLoading={isLoading}
           >
-            {isLoading ? <LoadingSpinner /> : "Submit"}
+            {t('Submit')}
           </Button>
         </form>
       </Box>

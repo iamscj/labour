@@ -13,17 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
 
-let SimpleSidebar = (props) => {
-  //console.log(props);
-  // props.onfiltervalueselect("ameyaa");
-
+let SimpleSidebar = ({ onfiltervalueselected, t }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
-        pro={props.onfiltervalueselected}
+        pro={onfiltervalueselected}
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
+        t={t}
       />
       <Drawer
         autoFocus={false}
@@ -35,7 +33,7 @@ let SimpleSidebar = (props) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent pro={props.onfiltervalueselected} onClose={onClose} />
+          <SidebarContent pro={onfiltervalueselected} onClose={onClose} t={t} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -51,7 +49,7 @@ const inputss = {
   distance: "no_distance",
 };
 
-const SidebarContent = ({ pro, onClose, ...rest }) => {
+const SidebarContent = ({ t = { t }, pro, onClose, ...rest }) => {
   const [filters, setfilters] = useState(inputss);
 
   function onFilterValueChange(e) {
@@ -81,16 +79,16 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
         fontWeight="bold"
         textAlign={"center"}
       >
-        Price
+        {t('Price')}
       </Text>
       <div>
         <Select
           onChange={onFilterValueChange}
-          placeholder="Choose Feild"
+          placeholder={t("Choose Feild")}
           size="md"
           name="price"
         >
-          <option value="all_price">All</option>
+          <option value="all_price">{t('All')}</option>
           <option value="1_price"> {"< 1000Rs"}</option>
           <option value="2_price">1000-2000Rs</option>
           <option value="3_price">2000-3000Rs</option>
@@ -105,16 +103,16 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
         fontWeight="bold"
         textAlign={"center"}
       >
-        Hours
+        {t('Hours')}
       </Text>
       <div>
         <Select
           onChange={onFilterValueChange}
-          placeholder="Choose Feild"
+          placeholder={t("Choose Feild")}
           size="md"
           name="hours"
         >
-          <option value="all_hr">All</option>
+          <option value="all_hr">{t('All')}</option>
           <option value="1_hr"> {"< 1hr"}</option>
           <option value="2_hr">1-2hr</option>
           <option value="3_hr">2-3hr</option>
@@ -129,16 +127,16 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
         fontWeight="bold"
         textAlign={"center"}
       >
-        Distance
+        {t('Distance')}
       </Text>
       <div>
         <Select
           onChange={onFilterValueChange}
-          placeholder="Choose Feild"
+          placeholder={t("Choose Feild")}
           size="md"
           name="distance"
         >
-          <option value="all_distance">All</option>
+          <option value="all_distance">{t('All')}</option>
           <option value="1_distance"> {"< 5km"}</option>
           <option value="2_distance">5-20km</option>
           <option value="3_distance">20-50km</option>
@@ -149,42 +147,6 @@ const SidebarContent = ({ pro, onClose, ...rest }) => {
     </Box>
   );
 };
-
-// const NavItem = ({ icon, children, ...rest }) => {
-//   return (
-//     <Link
-//       href="#"
-//       style={{ textDecoration: "none" }}
-//       _focus={{ boxShadow: "none" }}
-//     >
-//       <Flex
-//         align="center"
-//         p="4"
-//         mx="4"
-//         borderRadius="lg"
-//         role="group"
-//         cursor="pointer"
-//         _hover={{
-//           bg: "cyan.400",
-//           color: "white",
-//         }}
-//         {...rest}
-//       >
-//         {icon && (
-//           <Icon
-//             mr="4"
-//             fontSize="16"
-//             _groupHover={{
-//               color: "white",
-//             }}
-//             as={icon}
-//           />
-//         )}
-//         {children}
-//       </Flex>
-//     </Link>
-//   );
-// };
 
 const MobileNav = ({ onOpen, ...rest }) => {
   return (

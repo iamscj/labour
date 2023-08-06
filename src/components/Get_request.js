@@ -20,7 +20,7 @@ import {
   PopoverCloseButton,
 } from "@chakra-ui/react";
 
-const GetRequest = () => {
+const GetRequest = ({ t }) => {
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -144,7 +144,7 @@ const GetRequest = () => {
               <Box>
                 <Box bg="gray.100" p={4}>
                   <Heading size="md" fontWeight="bold" color="gray.700">
-                    Category: Job_ID
+                    {t('Job_ID')}
                   </Heading>
                   <Text fontSize="sm" mt={1} color="gray.600">
                     {item.job_id}
@@ -154,7 +154,7 @@ const GetRequest = () => {
                 <Flex p={4} alignItems="center">
                   <Box>
                     <Heading fontSize="2xl" fontWeight="semibold">
-                      Username: {item.username}
+                      {t('Username')}: {item.username}
                     </Heading>
                   </Box>
                   <Box ml="auto"></Box>
@@ -165,13 +165,13 @@ const GetRequest = () => {
                 <Stack p={4} direction={["column", "row"]} spacing={4}>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      Salary:
+                      {t('Salary')}:
                     </Text>
                     <Text color="gray.600">{item.salary}Rs</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      Working Hours:
+                      {t('Working Hours')}:
                     </Text>
                     <Text color="gray.600">{item.no_of_hours}Hr</Text>
                   </Box>
@@ -192,7 +192,7 @@ const GetRequest = () => {
                         }}
                         width={"30%"}
                       >
-                        Accept
+                        {t('Accept')}
                       </Button>
                     </PopoverTrigger>
 
@@ -222,7 +222,7 @@ const GetRequest = () => {
                               )
                             }
                           >
-                            Accept&Delete
+                            {t('Accept & Delete')}
                           </Button>
 
                           <Button
@@ -236,7 +236,7 @@ const GetRequest = () => {
                               )
                             }
                           >
-                            Accept
+                            {t('Accept')}
                           </Button>
                         </Box>
                       </PopoverBody>
@@ -261,7 +261,7 @@ const GetRequest = () => {
                       )
                     }
                   >
-                    Decline
+                    {t('Decline')}
                   </Button>
                 </Box>
                 <Divider />
@@ -292,7 +292,7 @@ const GetRequest = () => {
               color="gray.700"
               textAlign={"center"}
             >
-              No Requests Found
+              {t('No Requests Found')}
             </Heading>
           </Box>
         </Box>

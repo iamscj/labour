@@ -21,15 +21,15 @@ function App() {
 
         <Route path="/" element={<Home t={t} />} />
 
-        <Route path="/findjob/:field" element={<EachJob />} />
+        <Route path="/findjob/:field" element={<EachJob t={t} />} />
 
-        <Route path="/post" element={<Post />} />
+        <Route path="/post" element={<Post t={t} />} />
 
         <Route path="/search" element={<MapComponent />} />
 
-        <Route path="/request" element={<Request />} />
+        <Route path="/request" element={<Request t={t} />} />
 
-        <Route path="/getrequest" element={<GetRequest />} />
+        <Route path="/getrequest" element={<GetRequest t={t} />} />
       </Routes>
     </BrowserRouter>
   );

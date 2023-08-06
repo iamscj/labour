@@ -158,6 +158,7 @@ const Home = ({ t }) => {
   });
 
   useEffect(() => {
+    console.log("ji")
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -170,7 +171,7 @@ const Home = ({ t }) => {
         },
         (error) => {
           console.error("Error:", error.message);
-        }
+        }, { enableHighAccuracy: true }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
