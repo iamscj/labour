@@ -21,6 +21,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from "@chakra-ui/react";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const Navbar = ({ t }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -107,8 +108,12 @@ const Navbar = ({ t }) => {
             cursor={"pointer"}
             minW={0}
             onClick={handleClick}
+            bg="orange.500"
+            width="35px"
+            height="35px"
+            style={{ color: 'black' }}
           >
-            <Avatar size={"sm"} name="User" />
+             <ExitToAppIcon />
           </Button>
         </Box>
       </Flex>
@@ -155,17 +160,20 @@ const Navbar = ({ t }) => {
               {t("ClickHereToPostNewJob")}
             </Button>
 
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar size={"sm"} name="User" />
-              </MenuButton>
-            </Menu>
+            <Button
+            as={Button}
+            rounded={"full"}
+            variant={"link"}
+            cursor={"pointer"}
+            minW={0}
+            onClick={handleClick}
+            bg="orange.500"
+            width="35px"
+            height="35px"
+            style={{ color: 'black' }}
+          >
+             <ExitToAppIcon />
+          </Button>
           </Box>
         </Box>
       ) : null}

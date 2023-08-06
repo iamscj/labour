@@ -25,9 +25,9 @@ const EachJob = ({ t }) => {
 
   const [filteredjobs, setfilteredjobs] = useState([]);
   const [filtered, setfiltered] = useState({
-    price: "no_price",
-    hours: "no_hours",
-    distance: "no_distance",
+    price: "all_price",
+    hours: "all_hr",
+    distance: "all_distance",
   });
   const navigate = useNavigate();
   const handleClick = async (job_id) => {
@@ -157,6 +157,7 @@ const EachJob = ({ t }) => {
     console.log(yUser);
     let arr = jobs;
     let i = 0;
+    if(jobs.length>0){
     const updatedJobs = jobs.map((job) => {
       const xx = job.latitude;
       const yy = job.longitude;
@@ -164,7 +165,7 @@ const EachJob = ({ t }) => {
       arr[i].expected_distance_range = distance;
       console.log(arr.expected_distance_range)
       i++;
-    });
+    });}
     // for (let i = 0; i < arr.length; i++) {
     //   console.log(arr[i])
     // }
@@ -175,9 +176,13 @@ const EachJob = ({ t }) => {
   //console.log(jobs);
   useEffect(() => {
     let arr = [];
-    if (filtered.price === "no_price") {
+    if (filtered.price === '') {
       arr = jobs;
-    } else if (filtered.price === "all_price") {
+    } 
+    else if (filtered.price === 'no_price') {
+      arr = jobs;
+    } 
+    else if (filtered.price === "all_price") {
       arr = jobs;
     } else if (filtered.price === "1_price") {
       let arr1 = [];
@@ -215,12 +220,16 @@ const EachJob = ({ t }) => {
       arr = arr1;
     }
     let arr2 = [];
-    if (filtered.hours === "no_hours") {
+    if (filtered.hours ==='') {
       arr2 = jobs;
-    } else if (filtered.hours === "all_hr") {
+    } 
+    else if (filtered.hours ==="no_hours") {
+      arr2 = jobs;
+    } 
+    else if (filtered.hours === "all_hr") {
       arr2 = jobs;
     }
-    if (filtered.hours === "1_hr") {
+    else if (filtered.hours === "1_hr") {
       let arr1 = [];
       for (let i = 0; i < jobs.length; i++) {
         if (jobs[i].working_hours < 1) arr1.push(jobs[i]);
@@ -251,12 +260,16 @@ const EachJob = ({ t }) => {
 
     // console.log("hi",arr2);
     let arr3 = [];
-    if (filtered.distance === "no_distance") {
+    if (filtered.distance === '') {
       arr3 = updatejobs;
-    } else if (filtered.distance === "all_distance") {
+    } 
+    else if (filtered.distance === 'no_distance') {
+      arr3 = updatejobs;
+    } 
+    else if (filtered.distance === "all_distance") {
       arr3 = updatejobs;
     }
-    if (filtered.distance === "1_distance") {
+    else if (filtered.distance === "1_distance") {
       let arr1 = [];
       for (let i = 0; i < updatejobs.length; i++) {
         if (updatejobs[i].expected_distance_range < 5) arr1.push(jobs[i]);
@@ -302,7 +315,7 @@ const EachJob = ({ t }) => {
     setfilteredjobs(arr4);
   }, [filtered, jobs]);
 
-  //console.log(filtered);
+  console.log(filtered);
   const renderUser = (
     <div>
       <SimpleSidebar onfiltervalueselected={setfiltered} t={t} />
@@ -330,7 +343,7 @@ const EachJob = ({ t }) => {
                     {t('Category')} : {item.field}
                   </Heading>
                   <Text fontSize="sm" mt={1} color="gray.600">
-                    {item.job_id}
+                  {t('Job_ID')} :{item.job_id}
                   </Text>
                 </Box>
 
@@ -340,7 +353,7 @@ const EachJob = ({ t }) => {
                       {t('Username')}: {item.username}
                     </Heading>
                     <Text color="gray.500" fontSize="sm">
-                      {t('Location')}:{item.latitude},{item.longitude}
+                      {t('Latitude')}:{Math.round(item.latitude * 100) / 100}, {t('Longitude')}:{Math.round(item.longitude * 100) / 100}
                     </Text>
                   </Box>
                   <Box ml="auto">
@@ -372,7 +385,8 @@ const EachJob = ({ t }) => {
                       {t('Distance')}:
                     </Text>
                     <Text color="gray.600">
-                      {item.expected_distance_range}Kms
+                    {Math.round(item.expected_distance_range * 100) / 100}Kms
+                      
                     </Text>
                   </Box>
                 </Stack>
@@ -417,7 +431,7 @@ const EachJob = ({ t }) => {
                     bg={"black"}
                     color={"white"}
                     _hover={{
-                      bg: "blue.500",
+                      bg: '#808080',
                     }}
                     width={"200px"}
                     mt="10px"

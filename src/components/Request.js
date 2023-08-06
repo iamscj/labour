@@ -103,6 +103,34 @@ export default function Request({ t }) {
       setIsLoading(false);
       return;
     }
+     
+    inputfeild.salary=Math.floor(inputfeild.salary);
+    inputfeild.no_of_hours=Math.floor(inputfeild.no_of_hours);
+
+    if (inputfeild.salary <= 0) {
+      toast({
+        title: "Salary > 0 Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.no_of_hours <= 0) {
+      toast({
+        title: "Hours > 0 hr",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
 
 
 
@@ -201,7 +229,7 @@ export default function Request({ t }) {
               name="salary"
               onChange={(e) => onInputChange(e)}
               type="number"
-              placeholder="Enter Salary Rs"
+              placeholder={t("Enter Salary Rs")}
             />
           </FormControl>
 
@@ -211,7 +239,7 @@ export default function Request({ t }) {
               name="no_of_hours"
               onChange={(e) => onInputChange(e)}
               type="number"
-              placeholder="Enter Hours"
+              placeholder={t("Enter Hours")}
             />
           </FormControl>
 
@@ -221,7 +249,7 @@ export default function Request({ t }) {
               name="email_id"
               onChange={(e) => onInputChange(e)}
               type="email"
-              placeholder="Enter email"
+              placeholder={t("Enter Email")}
             />
           </FormControl>
 

@@ -194,6 +194,75 @@ function Post({ t }) {
       return;
     }
 
+    inputfeild.max_salary=Math.floor(inputfeild.max_salary);
+    inputfeild.min_salary=Math.floor(inputfeild.min_salary);
+    inputfeild.working_hours=Math.floor(inputfeild.working_hours);
+    inputfeild.expected_distance_range=Math.floor(inputfeild.expected_distance_range);
+
+    if (inputfeild.max_salary <= 0) {
+      toast({
+        title: "Max_salary > 0 Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary <= 0) {
+      toast({
+        title: "Min_salary > 0 Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.working_hours <= 0) {
+      toast({
+        title: "Working_hours > 0 hours",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.expected_distance_range <= 0) {
+      toast({
+        title: "Expected_distance_range > 0 kms",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary > inputfeild.max_salary ) {
+      toast({
+        title: "Max_salary > Min_salary Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+    
+
+    
+
 
 
 
@@ -249,7 +318,7 @@ function Post({ t }) {
       justifyContent="Center"
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
       height="100vh"
-      style={{ margin: 0, overflow: "hidden" }}
+      style={{ margin: 0, overflow:"hidden" }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
         <form style={{ margin: 0 }}>
@@ -322,7 +391,7 @@ function Post({ t }) {
                 <option value="event">{t('Event')}</option>
                 <option value="flight">{t('Flight')}</option>
                 <option value="shipping">{t('Shipping')}</option>
-                <option value="bussiness">{t('Business')}</option>
+                <option value="business">{t('Business')}</option>
                 <option value="childcare">{t('Childcare')}</option>
 
               </Select>
