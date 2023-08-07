@@ -1,7 +1,5 @@
 # FindYourLabour MultiLingual WebApp
 
-![FindYourLabour]
-
 ## Table of Contents
 
 - [Demo](#demo)
