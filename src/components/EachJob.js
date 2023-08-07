@@ -15,7 +15,7 @@ import { Button } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import LoadingSpinner from "./Loading";
 
-const EachJob = ({ t }) => {
+const EachJob = ({ t, filtered, setfiltered }) => {
   const [jobs, setJobs] = useState([]);
   const [likedjobs, setLiked] = useState([]);
   const [countjobss, setcountjobs] = useState([]);
@@ -24,11 +24,8 @@ const EachJob = ({ t }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [filteredjobs, setfilteredjobs] = useState([]);
-  const [filtered, setfiltered] = useState({
-    price: "no_price",
-    hours: "no_hours",
-    distance: "no_distance",
-  });
+
+
   const navigate = useNavigate();
   const handleClick = async (job_id) => {
     await axios.post(

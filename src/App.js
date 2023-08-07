@@ -2,7 +2,7 @@ import "./App.css";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { useState } from "react";
 import Home from "./components/Home";
 import EachJob from "./components/EachJob";
 import Post from "./components/Post";
@@ -13,6 +13,11 @@ import GetRequest from "./components/Get_request";
 
 function App() {
   const [t, i18n] = useTranslation();
+  const [filtered, setfiltered] = useState({
+    price: "no_price",
+    hours: "no_hours",
+    distance: "no_distance",
+  });
   return (
     <BrowserRouter>
       <Routes>
@@ -21,7 +26,7 @@ function App() {
 
         <Route path="/" element={<Home t={t} />} />
 
-        <Route path="/findjob/:field" element={<EachJob t={t} />} />
+        <Route path="/findjob/:field" element={<EachJob t={t} filtered={filtered} setfiltered={setfiltered} />} />
 
         <Route path="/post" element={<Post t={t} />} />
 
