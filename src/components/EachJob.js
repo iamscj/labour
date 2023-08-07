@@ -144,7 +144,7 @@ const EachJob = ({ t, filtered, setfiltered }) => {
     console.log(yUser);
     let arr = jobs;
     let i = 0;
-    const updatedJobs = jobs.map((job) => {
+    const updatedJobs = jobs?.map((job) => {
       const xx = job.latitude;
       const yy = job.longitude;
       const distance = ff(xUser, yUser, xx, yy);
