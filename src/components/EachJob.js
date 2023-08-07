@@ -157,15 +157,16 @@ const EachJob = ({ t }) => {
     console.log(yUser);
     let arr = jobs;
     let i = 0;
-    if(jobs.length>0){
-    const updatedJobs = jobs.map((job) => {
-      const xx = job.latitude;
-      const yy = job.longitude;
-      const distance = ff(xUser, yUser, xx, yy);
-      arr[i].expected_distance_range = distance;
-      console.log(arr.expected_distance_range)
-      i++;
-    });}
+    if (jobs.length > 0) {
+      const updatedJobs = jobs.map((job) => {
+        const xx = job.latitude;
+        const yy = job.longitude;
+        const distance = ff(xUser, yUser, xx, yy);
+        arr[i].expected_distance_range = distance;
+        console.log(arr.expected_distance_range)
+        i++;
+      });
+    }
     // for (let i = 0; i < arr.length; i++) {
     //   console.log(arr[i])
     // }
@@ -178,10 +179,10 @@ const EachJob = ({ t }) => {
     let arr = [];
     if (filtered.price === '') {
       arr = jobs;
-    } 
+    }
     else if (filtered.price === 'no_price') {
       arr = jobs;
-    } 
+    }
     else if (filtered.price === "all_price") {
       arr = jobs;
     } else if (filtered.price === "1_price") {
@@ -220,12 +221,12 @@ const EachJob = ({ t }) => {
       arr = arr1;
     }
     let arr2 = [];
-    if (filtered.hours ==='') {
+    if (filtered.hours === '') {
       arr2 = jobs;
-    } 
-    else if (filtered.hours ==="no_hours") {
+    }
+    else if (filtered.hours === "no_hours") {
       arr2 = jobs;
-    } 
+    }
     else if (filtered.hours === "all_hr") {
       arr2 = jobs;
     }
@@ -262,10 +263,10 @@ const EachJob = ({ t }) => {
     let arr3 = [];
     if (filtered.distance === '') {
       arr3 = updatejobs;
-    } 
+    }
     else if (filtered.distance === 'no_distance') {
       arr3 = updatejobs;
-    } 
+    }
     else if (filtered.distance === "all_distance") {
       arr3 = updatejobs;
     }
@@ -343,7 +344,7 @@ const EachJob = ({ t }) => {
                     {t('Category')} : {item.field}
                   </Heading>
                   <Text fontSize="sm" mt={1} color="gray.600">
-                  {t('Job_ID')} :{item.job_id}
+                    {t('Job_ID')} :{item.job_id}
                   </Text>
                 </Box>
 
@@ -353,7 +354,7 @@ const EachJob = ({ t }) => {
                       {t('Username')}: {item.username}
                     </Heading>
                     <Text color="gray.500" fontSize="sm">
-                      {t('Latitude')}:{Math.round(item.latitude * 100) / 100}, {t('Longitude')}:{Math.round(item.longitude * 100) / 100}
+                      {t('Latitude')} :{Math.round(item.latitude * 100) / 100}, {t('Longitude')} :{Math.round(item.longitude * 100) / 100}
                     </Text>
                   </Box>
                   <Box ml="auto">
@@ -368,25 +369,25 @@ const EachJob = ({ t }) => {
                 <Stack p={4} direction={["column", "row"]} spacing={4}>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      {t('Salary')}:
+                      {t('Salary')} :
                     </Text>
                     <Text color="gray.600">
-                      {item.min_salary} - {item.max_salary}Rs
+                      {item.min_salary} - {item.max_salary} Rs
                     </Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      {t('Working Hours')}:
+                      {t('Working Hours')} :
                     </Text>
-                    <Text color="gray.600">{item.working_hours}Hr</Text>
+                    <Text color="gray.600">{item.working_hours} Hr</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
-                      {t('Distance')}:
+                      {t('Distance')} :
                     </Text>
                     <Text color="gray.600">
-                    {Math.round(item.expected_distance_range * 100) / 100}Kms
-                      
+                      {Math.round(item.expected_distance_range * 100) / 100} Kms
+
                     </Text>
                   </Box>
                 </Stack>
