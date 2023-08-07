@@ -11,7 +11,7 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,12 +24,12 @@ import {
   PopoverCloseButton,
 } from "@chakra-ui/react";
 import MapComponent from "./Search_map";
-
+import LoadingSpinner from "./Loading";
 // import { useEffect } from "react";
 
 const inputss = {
-  username: "shreyasa",
-  phonenumber: "1234567854",
+  username: sessionStorage.getItem("username"),
+  phonenumber: sessionStorage.getItem("phoneno"),
   field: "",
   max_salary: "",
   min_salary: "",
@@ -40,9 +40,10 @@ const inputss = {
   longitude: "",
 };
 
-function Post() {
+function Post({ t }) {
   const [inputfeild, setFeild] = useState(inputss);
-  console.log(inputss);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(inputfeild);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -50,6 +51,22 @@ function Post() {
   const onInputChange = (e) => {
     setFeild({ ...inputfeild, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
 
   const handleLocation = async (e) => {
     if (navigator.geolocation) {
@@ -73,13 +90,189 @@ function Post() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputfeild);
+    setIsLoading(true);
+    //console.log(inputfeild);
+    inputfeild.username = sessionStorage.getItem("username");
+    inputfeild.phonenumber = sessionStorage.getItem("phoneno");
+
+    if (inputfeild.field.length === 0) {
+      toast({
+        title: "Feild shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.max_salary.length === 0) {
+      toast({
+        title: "Max_salary shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary.length === 0) {
+      toast({
+        title: "Min_salary shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.expected_distance_range.length === 0) {
+      toast({
+        title: "Expected_distance_range shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.working_hours.length === 0) {
+      toast({
+        title: "Working_hours shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.description.length === 0) {
+      toast({
+        title: "Description shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.latitude.length === 0) {
+      toast({
+        title: "Set location shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.longitude.length === 0) {
+      toast({
+        title: "Set location shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    inputfeild.max_salary=Math.floor(inputfeild.max_salary);
+    inputfeild.min_salary=Math.floor(inputfeild.min_salary);
+    inputfeild.working_hours=Math.floor(inputfeild.working_hours);
+    inputfeild.expected_distance_range=Math.floor(inputfeild.expected_distance_range);
+
+    if (inputfeild.max_salary <= 0) {
+      toast({
+        title: "Max_salary > 0 Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary <= 0) {
+      toast({
+        title: "Min_salary > 0 Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.working_hours <= 0) {
+      toast({
+        title: "Working_hours > 0 hours",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+
+    if (inputfeild.expected_distance_range <= 0) {
+      toast({
+        title: "Expected_distance_range > 0 kms",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (inputfeild.min_salary > inputfeild.max_salary ) {
+      toast({
+        title: "Max_salary > Min_salary Rs",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+    
+
+    
+
+
+
+
     let res;
     try {
       res = await axios.post(
         "https://server-labour.vercel.app/create-job",
         inputfeild
       );
+      console.log(inputfeild);
 
       if (res.data.error === "Check username") {
         toast({
@@ -89,6 +282,7 @@ function Post() {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
 
@@ -99,9 +293,10 @@ function Post() {
         isClosable: true,
         position: "top",
       });
-
-      setTimeout(() => navigate("/"), 1000);
-    } catch (err) {
+      setIsLoading(false);
+      navigate("/")
+    }
+    catch (err) {
       console.log(res.data);
       toast({
         title: res,
@@ -110,8 +305,10 @@ function Post() {
         isClosable: true,
         position: "bottom",
       });
+      setIsLoading(false);
     }
     console.log(res.data.error);
+    setIsLoading(false);
   };
 
   return (
@@ -119,11 +316,12 @@ function Post() {
       display="flex"
       alignItems="center"
       justifyContent="Center"
-      marginTop={"4vh"}
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
+      height="100vh"
+      style={{ margin: 0, overflow:"hidden" }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
-        <form>
+        <form style={{ margin: 0 }}>
           <Grid
             templateColumns="repeat(2, 1fr)"
             templateRows="repeat(3, 1fr)"
@@ -132,7 +330,7 @@ function Post() {
           >
             <FormControl gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Username
+                {t('Username')}
               </FormLabel>
               <Input
                 type="text"
@@ -149,7 +347,7 @@ function Post() {
 
             <FormControl gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Phone No
+                {t('Phone No')}
               </FormLabel>
               <InputGroup>
                 <InputLeftAddon children="+91" />
@@ -169,124 +367,131 @@ function Post() {
             </FormControl>
 
             <FormControl gridColumn="span 2" isRequired>
-              <FormLabel>Feild</FormLabel>
+              <FormLabel>{t('Feild')}</FormLabel>
               <Select
                 onChange={(e) => onInputChange(e)}
-                placeholder="Choose Feild"
+                placeholder={t("Choose Feild")}
                 size="md"
                 name="field"
               >
-                <option value="computer-service">Computer-Service</option>
-                <option value="plumbing">Plumbing</option>
-                <option value="housekeeping">Housekeeping</option>
-                <option value="electrician"> Electrician </option>
-                <option value="painting"> Painting</option>
-                <option value="massage">Massage</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="fitness">Fitness</option>
-                <option value="golf course">Golf Course</option>
-                <option value="music">Music</option>
-                <option value="Movie">Movie</option>
-                <option value="camera">Camera</option>
-                <option value="shopping">Shopping</option>
-                <option value="event">Event</option>
-                <option value="flight">Flight</option>
-                <option value="shipping">Shipping</option>
-                <option value="bussiness">Business</option>
-                <option value="childcare">Childcare</option>
+                <option value="computer-service">{t('Computer-Service')}</option>
+                <option value="plumbing">{t('Plumbing')}</option>
+                <option value="electronics">{t('Electrician')}</option>
+                <option value="housekeeping">{t('Housekeeping')}</option>
+                <option value="electrician">{t('Electrician')}</option>
+                <option value="painting">{t('Painting')}</option>
+                <option value="massage">{t('Massage')}</option>
+                <option value="restaurant">{t('Restaurant')}</option>
+                <option value="fitness">{t('Fitness')}</option>
+                <option value="golf-course">{t('Golf Course')}</option>
+                <option value="music">{t('Music')}</option>
+                <option value="movie">{t('Movie')}</option>
+                <option value="camera">{t('Camera')}</option>
+                <option value="shopping">{t('Shopping')}</option>
+                <option value="event">{t('Event')}</option>
+                <option value="flight">{t('Flight')}</option>
+                <option value="shipping">{t('Shipping')}</option>
+                <option value="business">{t('Business')}</option>
+                <option value="childcare">{t('Childcare')}</option>
+
               </Select>
             </FormControl>
 
-            <FormControl gridColumn="span 2" isRequired>
+            <FormControl gridColumn="span 2" isRequired={true}>
               <FormLabel color="gray.800" fontWeight="bold">
-                Salary
+                {t('Salary')}
               </FormLabel>
 
               <InputGroup>
-                <InputLeftAddon children="min" />
+                <InputLeftAddon children={t("min")} />
                 <Input
                   onChange={(e) => onInputChange(e)}
                   type="number"
                   name="min_salary"
                   borderRadius="md"
                   bg=""
-                  placeholder="Salary In Rs"
+                  placeholder={t("Salary In Rs")}
                   _focus={{ borderColor: "black.500", bg: "" }}
                   border={"none"}
                   borderBottom={"1px"}
                   width={"50%"}
+                  isRequired={true}
                 />
 
-                <InputLeftAddon children="max" />
+                <InputLeftAddon children={t("max")} />
                 <Input
                   onChange={(e) => onInputChange(e)}
                   type="number"
                   name="max_salary"
                   borderRadius="md"
                   bg=""
-                  placeholder="Salary In Rs"
+                  placeholder={t("Salary In Rs")}
                   _focus={{ borderColor: "black.500", bg: "" }}
                   border={"none"}
                   borderBottom={"1px"}
                   width={"50%"}
+                  isRequired
                 />
               </InputGroup>
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel color="gray.800" fontWeight="bold">
-                Available Distance
+                {t("Available Distance")}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="number"
                 name="expected_distance_range"
                 borderRadius="md"
-                placeholder="Distance Kms"
+                placeholder={t("Distance Kms")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                isRequired
               />
             </FormControl>
 
             <FormControl isRequired>
               <FormLabel color="gray.800" fontWeight="bold">
-                Available Hours
+                {t('Available Hours')}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="number"
                 name="working_hours"
                 borderRadius="md"
-                placeholder="Hour"
+                placeholder={t("Hour")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                required
               />
             </FormControl>
 
             <FormControl isRequired gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Description
+                {t('Description')}
               </FormLabel>
               <Input
                 onChange={(e) => onInputChange(e)}
                 type="text"
                 name="description"
                 borderRadius="md"
-                placeholder="description"
+                placeholder={t("description")}
                 _focus={{ borderColor: "purple.500", bg: "white" }}
                 bg=""
                 border={"none"}
                 borderBottom={"1px"}
+                isRequired
               />
             </FormControl>
 
             <FormControl isRequired gridColumn="span 2">
               <FormLabel color="gray.800" fontWeight="bold">
-                Location
+                {t('Location')}
               </FormLabel>
               <Box display={"flex"} justifyContent={"space-around"}>
                 <Popover placement="top" closeOnBlur={false}>
@@ -294,22 +499,22 @@ function Post() {
                     <Button
                       loadingText="Submitting"
                       size="lg"
-                      bg={"black"}
+                      bg={"teal"}
                       color={"white"}
                       _hover={{
-                        bg: "blue.500",
+                        bg: "teal.500",
                       }}
-                      width={"200px"}
+                      width={"250px"}
                     >
-                      Select Location
+                      {t('Select Location')}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent>
                     <PopoverArrow />
                     <PopoverCloseButton />
-                    <PopoverHeader>Select Your Location</PopoverHeader>
+                    <PopoverHeader>{t('Select Your Location')}</PopoverHeader>
                     <PopoverBody>
-                      <MapComponent />
+                      <MapComponent setlat={setFeild} />
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
@@ -319,15 +524,15 @@ function Post() {
                 <Button
                   loadingText="Submitting"
                   size="lg"
-                  bg={"black"}
+                  bg={"teal"}
                   color={"white"}
                   _hover={{
-                    bg: "blue.500",
+                    bg: "teal.500",
                   }}
-                  width={"200px"}
+                  width={"250px"}
                   onClick={handleLocation}
                 >
-                  Current Location
+                  {t('Current Location')}
                 </Button>
               </Box>
             </FormControl>
@@ -335,13 +540,15 @@ function Post() {
 
           <Button
             type="submit"
-            colorScheme="red"
+            colorScheme="teal"
             mt={6}
             size="lg"
             width="100%"
             onClick={handleSubmit}
+            isDisabled={isLoading ? true : false}
+            isLoading={isLoading}
           >
-            Submit
+            {t('Submit')}
           </Button>
         </form>
       </Box>

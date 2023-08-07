@@ -1,71 +1,35 @@
 import "./App.css";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Home from "./components/Home";
 import EachJob from "./components/EachJob";
 import Post from "./components/Post";
 import MapComponent from "./components/Search_map";
 import Request from "./components/Request";
-
-const PrivateRoute = ({ isAuthenticated, ...props }) => {
-  return isAuthenticated ? (
-    <>
-      {/* <Header /> */}
-      <Outlet />
-    </>
-  ) : (
-    <Navigate replace to="/login" />
-  );
-};
+import { useTranslation } from "react-i18next";
+import GetRequest from "./components/Get_request";
 
 function App() {
-  const [isAuthenticated, isUserAuthenticated] = useState(false);
+  const [t, i18n] = useTranslation();
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/login"
-          element={<Login isUserAuthenticated={isUserAuthenticated} />}
-        />
+        <Route path="/login" element={<Login t={t} i18n={i18n} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/"
-          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-        >
-          <Route path="/" element={<Home />} />
-        </Route>
-        <Route
-          path="/findjob/:field"
-          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-        >
-          <Route path="/findjob/:field" element={<EachJob />} />
-        </Route>
-        <Route
-          path="/post"
-          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-        >
-          <Route path="/post" element={<Post />} />
-        </Route>
-        <Route
-          path="/search"
-          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-        >
-          <Route path="/search" element={<MapComponent />} />
-        </Route>
-        <Route
-          path="/request"
-          element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-        >
-          <Route path="/request" element={<Request />} />
-        </Route>
+
+        <Route path="/" element={<Home t={t} />} />
+
+        <Route path="/findjob/:field" element={<EachJob t={t} />} />
+
+        <Route path="/post" element={<Post t={t} />} />
+
+        <Route path="/search" element={<MapComponent />} />
+
+        <Route path="/request" element={<Request t={t} />} />
+
+        <Route path="/getrequest" element={<GetRequest t={t} />} />
       </Routes>
     </BrowserRouter>
   );

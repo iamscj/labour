@@ -14,10 +14,16 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LoadingSpinner from "./Loading";
 
 const avatars = [
   {
@@ -47,8 +53,10 @@ const loginInitialValues = {
   password: "",
 };
 
-export default function JoinOurTeam({ isUserAuthenticated }) {
+export default function JoinOurTeam() {
   const [login, setLogin] = useState(loginInitialValues);
+  const [isLoading, setIsLoading] = useState(false);
+  const { t, i18n } = useTranslation();
   const onValueChange = (e) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
@@ -56,6 +64,32 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
   const toast = useToast();
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
+    if (login.password.length < 5) {
+      toast({
+        title: "Password atleast be of length 5",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (login.username.length === 0) {
+      toast({
+        title: "Username shouldnot be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       let res = await axios.post(
@@ -67,27 +101,31 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
 
       if (res.data.msg === "password missmatch") {
         toast({
-          title: "Incorrect Password",
+          title: t("Incorrect Password"),
           status: "error",
           duration: 4000,
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
+
         return;
       }
       if (res.data.msg === "User Does Not Exist") {
         toast({
-          title: "User Does Not Exist",
+          title: t("User Does Not Exist"),
           status: "error",
           duration: 4000,
           isClosable: true,
           position: "bottom",
         });
+
+        setIsLoading(false);
         return;
       }
       if (res.data.msg === "user verified") {
         toast({
-          title: "user verified",
+          title: t("user verified"),
           status: "success",
           duration: 4000,
           isClosable: true,
@@ -95,30 +133,40 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
         });
         sessionStorage.setItem("username", res.data.details.username);
         sessionStorage.setItem("phoneno", res.data.details.phonenumber);
-        isUserAuthenticated(true);
-        setTimeout(() => navigate("/"), 1000);
+        sessionStorage.setItem("password", res.data.details.password);
+
+        setIsLoading(false);
+        navigate("/")
       } else {
         toast({
-          title: "Something Went Wrong",
+          title: t("Something Went Wrong"),
           status: "error",
           duration: 4000,
           isClosable: true,
           position: "top",
         });
+        //e.currentTarget.disabled = false;
+        setIsLoading(false);
         return;
       }
     } catch (err) {
       console.log(err);
       toast({
-        title: "Something Went Wrong",
+        title: t("Something Went Wrong"),
         status: "error",
         duration: 4000,
         isClosable: true,
         position: "top",
       });
+
+      setIsLoading(false);
       return;
     }
   };
+
+  function handleClick(lang) {
+    i18n.changeLanguage(lang);
+  }
 
   return (
     <Box position={"relative"}>
@@ -134,7 +182,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
             lineHeight={1.1}
             fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
           >
-            Labours{" "}
+            {t("Labours")}{" "}
             <Text
               as={"span"}
               bgGradient="linear(to-r, red.400,pink.400)"
@@ -142,7 +190,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
             >
               &
             </Text>{" "}
-            Employement
+            {t("Employment")}
           </Heading>
           <Stack direction={"row"} spacing={4} align={"center"}>
             <AvatarGroup>
@@ -213,7 +261,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
               lineHeight={1.1}
               fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
             >
-              Login
+              {t("Login")}
               <Text
                 as={"span"}
                 bgGradient="linear(to-r, red.400,pink.400)"
@@ -230,7 +278,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 value={login.username}
                 onChange={(e) => onValueChange(e)}
                 name="username"
-                placeholder="Username"
+                placeholder={t("Username")}
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -242,7 +290,7 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 value={login.password}
                 onChange={(e) => onValueChange(e)}
                 name="password"
-                placeholder="Password"
+                placeholder={t("Password")}
                 bg={"gray.100"}
                 border={0}
                 color={"gray.500"}
@@ -250,15 +298,27 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                   color: "gray.500",
                 }}
               />
+              <Menu>
+                <MenuButton as={Button}>{t("Language")}</MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => handleClick("en")}>
+                    {t("English")}
+                  </MenuItem>
+                  <MenuItem onClick={() => handleClick("kn")}>
+                    {t("Kannada")}
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Link>
                 <Button
                   fontFamily={"heading"}
                   bg={"gray.200"}
                   color={"gray.800"}
                   width={"100%"}
+                  isDisabled={isLoading ? true : false}
                   onClick={handleSubmit}
                 >
-                  Login
+                  {isLoading ? <LoadingSpinner /> : t("Login")}
                 </Button>
               </Link>
             </Stack>
@@ -278,12 +338,12 @@ export default function JoinOurTeam({ isUserAuthenticated }) {
                 bgGradient: "linear(to-r, red.400,pink.400)",
                 boxShadow: "xl",
               }}
+              disabled={true}
               onClick={() => navigate("/signup")}
             >
-              No Account!SignUp
+              {t("No Account!SignUp")}
             </Button>
           </Box>
-          form
         </Stack>
       </Container>
       <Blur

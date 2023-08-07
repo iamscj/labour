@@ -13,12 +13,12 @@ import {
   Avatar,
   AvatarGroup,
   useBreakpointValue,
- 
   Icon,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./Loading";
 
 const avatars = [
   {
@@ -51,6 +51,7 @@ const signupInitialValues = {
 
 export default function JoinOurTeam() {
   const [signup, setSignup] = useState(signupInitialValues);
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const onInputChange = (e) => {
     setSignup({ ...signup, [e.target.name]: e.target.value });
@@ -59,12 +60,59 @@ export default function JoinOurTeam() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    if (signup.username.length === 0) {
+      toast({
+        title: "Username shouldn't be empty",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (signup.password.length < 5) {
+      toast({
+        title: "Password atleast be of length 5",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (signup.phonenumber.length !== 10) {
+      toast({
+        title: "Phonenumber must of length 10",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (!signup.phonenumber.match(/^\d{10}$/)) {
+      toast({
+        title: "Enter Correct Phone Number",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+
+
     let res;
     try {
-      res = await axios.post(
-        "https://server-labour.vercel.app/signup",
-        signup
-      );
+      res = await axios.post("https://server-labour.vercel.app/signup", signup);
       if (res.data.msg === "Username Already Taken") {
         toast({
           title: "Username Already Taken",
@@ -73,6 +121,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "bottom",
         });
+        setIsLoading(false);
         return;
       }
       if (res.data.msg === "Successfully signedup") {
@@ -83,9 +132,9 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "top",
         });
-        setTimeout(() => navigate("/login"), 1000);
-      }
-      else {
+        setIsLoading(false);
+        navigate("/login")
+      } else {
         toast({
           title: "Something Went Wrong",
           status: "error",
@@ -93,6 +142,7 @@ export default function JoinOurTeam() {
           isClosable: true,
           position: "top",
         });
+        setIsLoading(false);
         return;
       }
     } catch (err) {
@@ -104,7 +154,9 @@ export default function JoinOurTeam() {
         isClosable: true,
         position: "bottom",
       });
+      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -213,8 +265,7 @@ export default function JoinOurTeam() {
           </Stack>
           <Box as={"form"} mt={10}>
             <Stack spacing={4}>
-
-            <Input
+              <Input
                 onChange={(e) => onInputChange(e)}
                 name="username"
                 placeholder="Username"
@@ -238,7 +289,7 @@ export default function JoinOurTeam() {
                   color: "gray.500",
                 }}
               />
-             
+
               <Input
                 onChange={(e) => onInputChange(e)}
                 name="password"
@@ -258,8 +309,9 @@ export default function JoinOurTeam() {
                   color={"gray.800"}
                   width={"100%"}
                   onClick={handleSubmit}
+                  isDisabled={isLoading ? true : false}
                 >
-                  SignUp
+                  {isLoading ? <LoadingSpinner /> : "Signup"}
                 </Button>
               </Link>
             </Stack>

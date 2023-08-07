@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "animate.css";
 
-import { Box, Center, Heading, Stack, Button, Flex } from "@chakra-ui/react";
+import { Box, Center, Heading, Button, Flex } from "@chakra-ui/react";
 import {
   MdComputer,
   MdBuild,
@@ -24,26 +24,25 @@ import {
 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import axios from "axios";
 
-const AnimatedButton = ({ category, isLeft, navigate }) => (
+const AnimatedButton = ({ category, isLeft, navigate, t }) => (
   <Flex
     direction="column"
     align="center"
     mb="4"
     key={category.label}
-    className={`animate__animated ${
-      isLeft ? "animate__slideInLeft" : "animate__slideInRight"
-    }`}
+    className={`animate__animated ${isLeft ? "animate__slideInLeft" : "animate__slideInRight"
+      }`}
   >
     <Button
       size={{ base: "md", md: "lg" }}
       colorScheme={category.colorScheme}
       variant="solid"
       leftIcon={<category.icon />}
-      // width={"200px"}
       onClick={() => navigate(`/findjob/${category.label}`)}
     >
-      {category.label}
+      {t(category.label)}
     </Button>
   </Flex>
 );
@@ -139,10 +138,27 @@ const categories = [
     icon: MdChildCare,
   },
 ];
-const Home = () => {
+const Home = ({ t }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let req = {
+      username: sessionStorage.getItem("username"),
+      password: sessionStorage.getItem("password"),
+    };
+    console.log(req);
+    if (req.username === null || req.password === null) {
+      navigate("/login");
+    }
+    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    console.log(res);
+    if (res.msg === "password missmatch") {
+      navigate("/login");
+    }
+  });
+
+  useEffect(() => {
+    console.log("ji")
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -155,7 +171,7 @@ const Home = () => {
         },
         (error) => {
           console.error("Error:", error.message);
-        }
+        }, { enableHighAccuracy: true }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -163,11 +179,11 @@ const Home = () => {
   });
   return (
     <>
-      <Navbar />
+      <Navbar t={t} />
       <Box
         p={{ base: "2", md: "10" }}
         bgGradient="linear(to-r, #1A202C, #2D3748)" // modified background gradient
-        minH="80vh"
+        minH="90vh"
         display="flex"
         flexDirection="column"
         justifyContent="center"
@@ -209,7 +225,7 @@ const Home = () => {
             bgGradient="linear(to-r, #FBBF24, #F87171)" // modified gradient
             bgClip="text"
           >
-            Find the Right Labour for Your Job...
+            {t("Find the Right Labour for Your Job...")}
           </Heading>
         </Center>
 
@@ -225,6 +241,7 @@ const Home = () => {
               category={category}
               isLeft
               navigate={navigate}
+              t={t}
             />
           ))}
           {categories.slice(categories.length / 2).map((category) => (
@@ -232,6 +249,7 @@ const Home = () => {
               key={category.label}
               category={category}
               navigate={navigate}
+              t={t}
             />
           ))}
         </Flex>
