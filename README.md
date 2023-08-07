@@ -1,6 +1,6 @@
 # FindYourLabour MultiLingual WebApp
 
-![FindYourLabour](/path/to/your/logo.png)
+![FindYourLabour]
 
 ## Table of Contents
 
