@@ -194,10 +194,10 @@ function Post({ t }) {
       return;
     }
 
-    inputfeild.max_salary=Math.floor(inputfeild.max_salary);
-    inputfeild.min_salary=Math.floor(inputfeild.min_salary);
-    inputfeild.working_hours=Math.floor(inputfeild.working_hours);
-    inputfeild.expected_distance_range=Math.floor(inputfeild.expected_distance_range);
+    inputfeild.max_salary = Math.floor(inputfeild.max_salary);
+    inputfeild.min_salary = Math.floor(inputfeild.min_salary);
+    inputfeild.working_hours = Math.floor(inputfeild.working_hours);
+    inputfeild.expected_distance_range = Math.floor(inputfeild.expected_distance_range);
 
     if (inputfeild.max_salary <= 0) {
       toast({
@@ -248,7 +248,7 @@ function Post({ t }) {
       return;
     }
 
-    if (inputfeild.min_salary > inputfeild.max_salary ) {
+    if (inputfeild.min_salary > inputfeild.max_salary) {
       toast({
         title: "Max_salary > Min_salary Rs",
         status: "error",
@@ -259,9 +259,9 @@ function Post({ t }) {
       setIsLoading(false);
       return;
     }
-    
 
-    
+
+
 
 
 
@@ -318,7 +318,7 @@ function Post({ t }) {
       justifyContent="Center"
       bg="linear-gradient(135deg, rgb(50, 70, 50), rgb(60, 90, 100))"
       height="100vh"
-      style={{ margin: 0, overflow:"hidden" }}
+      style={{ margin: 0, overflow: "hidden" }}
     >
       <Box width="650px" p={6} bg="white" boxShadow="lg" borderRadius="lg">
         <form style={{ margin: 0 }}>
@@ -376,7 +376,6 @@ function Post({ t }) {
               >
                 <option value="computer-service">{t('Computer-Service')}</option>
                 <option value="plumbing">{t('Plumbing')}</option>
-                <option value="electronics">{t('Electrician')}</option>
                 <option value="housekeeping">{t('Housekeeping')}</option>
                 <option value="electrician">{t('Electrician')}</option>
                 <option value="painting">{t('Painting')}</option>
