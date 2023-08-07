@@ -40,7 +40,6 @@ const EachJob = ({ t }) => {
   };
 
   const handleRequest = (job_id) => {
-    // console.log(job_id);
     navigate("/request", {
       state: {
         job: job_id,
@@ -53,12 +52,10 @@ const EachJob = ({ t }) => {
       username: sessionStorage.getItem("username"),
       password: sessionStorage.getItem("password"),
     };
-    console.log(req);
     if (req.username === null || req.password === null) {
       navigate("/login");
     }
     let res = axios.post("https://server-labour.vercel.app/verify-user", req);
-    console.log(res);
     if (res.msg === "password missmatch") {
       navigate("/login");
     }
@@ -91,7 +88,6 @@ const EachJob = ({ t }) => {
         )}`
       )
       .then((response) => {
-        console.log(response.data);
         let temp = response.data;
         let arr = [];
 
@@ -124,10 +120,6 @@ const EachJob = ({ t }) => {
         });
     }
   }, [field]);
-  // console.log(countlikes);
-  // function onfiltervalueselected(filtervalue) {
-  //   setfiltered(filtervalue);
-  // }
 
   const [updatejobs, setUpdatejobs] = useState([]);
   const ff = (lat1, lon1, lat2, lon2) => {
@@ -144,7 +136,6 @@ const EachJob = ({ t }) => {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const d = R * c; // in metres
-    console.log("ameya ", d)
     return d / 1000;
   };
 
@@ -152,7 +143,6 @@ const EachJob = ({ t }) => {
   useEffect(() => {
     const xUser = sessionStorage.getItem("latitude");
     const yUser = sessionStorage.getItem("longitude");
-    console.log("shfdshfkdsjb")
     console.log(xUser);
     console.log(yUser);
     let arr = jobs;
@@ -162,17 +152,11 @@ const EachJob = ({ t }) => {
       const yy = job.longitude;
       const distance = ff(xUser, yUser, xx, yy);
       arr[i].expected_distance_range = distance;
-      console.log(arr.expected_distance_range)
       i++;
     });
-    // for (let i = 0; i < arr.length; i++) {
-    //   console.log(arr[i])
-    // }
     setUpdatejobs(arr);
-    console.log("hiiii", updatejobs);
   }, [jobs]);
 
-  //console.log(jobs);
   useEffect(() => {
     let arr = [];
     if (filtered.price === "no_price") {
@@ -247,9 +231,7 @@ const EachJob = ({ t }) => {
       }
       arr2 = arr1;
     }
-    // console.log("hello",arr);
 
-    // console.log("hi",arr2);
     let arr3 = [];
     if (filtered.distance === "no_distance") {
       arr3 = updatejobs;
@@ -282,10 +264,6 @@ const EachJob = ({ t }) => {
       arr3 = arr1;
     }
     let arr4 = [];
-    console.log(arr);
-    console.log(arr2);
-    console.log(arr3);
-    console.log(jobs);
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr2.length; j++) {
         if (arr[i].job_id === arr2[j].job_id) {
@@ -298,11 +276,9 @@ const EachJob = ({ t }) => {
         }
       }
     }
-    console.log(arr4);
     setfilteredjobs(arr4);
   }, [filtered, jobs]);
 
-  //console.log(filtered);
   const renderUser = (
     <div>
       <SimpleSidebar onfiltervalueselected={setfiltered} t={t} />
@@ -337,10 +313,10 @@ const EachJob = ({ t }) => {
                 <Flex p={4} alignItems="center">
                   <Box>
                     <Heading fontSize="2xl" fontWeight="semibold">
-                      {t('Username')}: {item.username}
+                      {t('Username')} : {item.username}
                     </Heading>
                     <Text color="gray.500" fontSize="sm">
-                      {t('Location')}:{item.latitude},{item.longitude}
+                      {t('Location')} : {item.latitude} , {item.longitude}
                     </Text>
                   </Box>
                   <Box ml="auto">
@@ -358,21 +334,21 @@ const EachJob = ({ t }) => {
                       {t('Salary')}:
                     </Text>
                     <Text color="gray.600">
-                      {item.min_salary} - {item.max_salary}Rs
+                      {item.min_salary} - {item.max_salary} Rs
                     </Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
                       {t('Working Hours')}:
                     </Text>
-                    <Text color="gray.600">{item.working_hours}Hr</Text>
+                    <Text color="gray.600">{item.working_hours} Hr</Text>
                   </Box>
                   <Box>
                     <Text fontWeight="bold" color="gray.700">
                       {t('Distance')}:
                     </Text>
                     <Text color="gray.600">
-                      {item.expected_distance_range}Kms
+                      {item.expected_distance_range} Kms
                     </Text>
                   </Box>
                 </Stack>
