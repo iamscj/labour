@@ -33,6 +33,7 @@ const EachJob = ({ t }) => {
   const handleClick = async (job_id) => {
     await axios.post(
       `https://server-labour.vercel.app/like-dislike/${sessionStorage.getItem(
+      `http://localhost:8000/like-dislike/${sessionStorage.getItem(
         "username"
       )}/${job_id}`
     );
@@ -57,7 +58,7 @@ const EachJob = ({ t }) => {
     if (req.username === null || req.password === null) {
       navigate("/login");
     }
-    let res = axios.post("https://server-labour.vercel.app/verify-user", req);
+    let res = axios.post("http://localhost:8000/verify-user", req);
     console.log(res);
     if (res.msg === "password missmatch") {
       navigate("/login");
@@ -66,7 +67,7 @@ const EachJob = ({ t }) => {
 
   useEffect(() => {
     axios
-      .get("https://server-labour.vercel.app/get-like-count")
+      .get("http://localhost:8000/get-like-count")
       .then((response) => {
         let temp = response.data;
         let arr = [];
@@ -86,7 +87,7 @@ const EachJob = ({ t }) => {
   useEffect(() => {
     axios
       .get(
-        `https://server-labour.vercel.app/get-liked-posts?username=${sessionStorage.getItem(
+        `http://localhost:8000/get-liked-posts?username=${sessionStorage.getItem(
           "username"
         )}`
       )
@@ -113,7 +114,7 @@ const EachJob = ({ t }) => {
     if (field !== undefined) {
       axios
         .get(
-          `https://server-labour.vercel.app/get-all-jobs-by-category/${field}`
+          `http://localhost:8000/get-all-jobs-by-category/${field}`
         )
         .then((response) => {
           setJobs(response.data);
